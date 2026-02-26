@@ -70,10 +70,37 @@ public/                 # 静的ファイル
 
 ## SEO 対策
 
-- `generateMetadata()` を全ページに設定する
+- `generateMetadata()` を全ページに設定する（canonical URL含む）
 - `app/sitemap.ts` と `app/robots.ts` を配置・維持する
 - ISR (`revalidate`) を活用して静的生成とデータ鮮度を両立する
 - OGP 動的生成は `app/api/og/route.tsx` で `@vercel/og` を使用する
+- JSON-LD 構造化データ: `components/features/seo/json-ld.tsx`（WebSite, Article, Player, Breadcrumb）
+
+## microCMS 記事管理
+
+- **サービスドメイン**: pikura（https://pikura.microcms.io）
+- **API**: `articles`（リスト形式）
+- **フィールド**: title, slug, description, content（リッチエディタ）, category, thumbnail
+- **カテゴリ値**: `beginner`, `rules`, `gear`, `events`, `tips`
+- **一括入稿スクリプト**: `scripts/import-articles.mjs`
+  - 使い方: `MICROCMS_WRITE_KEY=xxx node scripts/import-articles.mjs`
+  - 記事下書きは `/articles/` ディレクトリ（プロジェクトルートの親）にMarkdownで保管
+  - スクリプトがMarkdown→HTML変換してmicroCMS APIで入稿
+- **既存APIキーにWrite権限あり**（GET + POST/PUT/PATCH/DELETE 兼用）
+
+## アフィリエイト
+
+- **Amazonアソシエイト**: タグ `pokeraiii-22`（環境変数 `NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG`）
+- **商品データ**: `lib/affiliate/products.ts`（記事slug→商品リストのマッピング）
+- **表示コンポーネント**: `components/features/articles/product-card.tsx`
+- **方針**: UX重視。記事最下部に控えめなテキストリンクで表示。広告感を出さない
+
+## ランキングデータ
+
+- **データソース**: JPA公式ランキング（2026年1月）
+- **実装**: `lib/ranking/data.ts` に157エントリーを静的TypeScriptデータとして格納
+- **選手数**: 124名（カテゴリ横断で名寄せ済み）
+- **カテゴリ**: 男子/女子シングルス・ダブルス、混合ダブルス(男性/女性) × 年齢区分(19+/35+/50+)
 
 ## やってはいけないこと
 

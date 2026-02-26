@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { MobileNav } from "@/components/layouts/mobile-nav";
 
 const navItems = [
@@ -30,9 +29,6 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button asChild variant="default" size="sm" className="hidden md:inline-flex">
-            <Link href="/login">ログイン</Link>
-          </Button>
           <MobileNav navItems={navItems.map((item) => ({ ...item }))} />
         </div>
       </div>

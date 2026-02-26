@@ -37,11 +37,6 @@ export function MobileNav({ navItems }: { navItems: NavItem[] }) {
                 {item.label}
               </Link>
             ))}
-            <Button asChild size="sm" className="mt-2 w-full">
-              <Link href="/login" onClick={() => setIsOpen(false)}>
-                ログイン
-              </Link>
-            </Button>
           </nav>
         </div>
       )}
