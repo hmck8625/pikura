@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Header } from "@/components/layouts/header";
 import { Footer } from "@/components/layouts/footer";
 import { getArticleList } from "@/lib/microcms/queries";
+import { getTopRankingsPreview, getUniquePlayerCount } from "@/lib/ranking/data";
 import type { Article } from "@/types";
 
 export const revalidate = 3600;
@@ -48,12 +49,6 @@ function formatDate(dateString: string): string {
     day: "numeric",
   });
 }
-
-const mockRankings = [
-  { rank: 1, name: "田中 太郎", points: 2450, winRate: 78 },
-  { rank: 2, name: "鈴木 花子", points: 2380, winRate: 75 },
-  { rank: 3, name: "佐藤 健一", points: 2210, winRate: 72 },
-];
 
 const mockEvents = [
   {
@@ -157,7 +152,12 @@ export default async function HomePage() {
         <section className="bg-muted/30 py-16">
           <div className="container mx-auto px-4">
             <div className="mb-8 flex items-center justify-between">
-              <h2 className="text-2xl font-bold">ランキング</h2>
+              <div>
+                <h2 className="text-2xl font-bold">JPA公式ランキング</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {getUniquePlayerCount()}名の選手が登録 / 男子ダブルス 一般
+                </p>
+              </div>
               <Button asChild variant="ghost">
                 <Link href="/rankings">すべて見る</Link>
               </Button>
@@ -168,19 +168,35 @@ export default async function HomePage() {
                   <table className="w-full">
                     <thead>
                       <tr className="border-b text-left text-sm font-medium text-muted-foreground">
-                        <th className="px-6 py-3">順位</th>
+                        <th className="w-16 px-6 py-3 text-center">順位</th>
                         <th className="px-6 py-3">選手名</th>
-                        <th className="px-6 py-3">ポイント</th>
-                        <th className="px-6 py-3">勝率</th>
+                        <th className="px-6 py-3 text-right">ポイント</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {mockRankings.map((player) => (
-                        <tr key={player.rank} className="border-b last:border-0">
-                          <td className="px-6 py-4 font-bold">{player.rank}</td>
-                          <td className="px-6 py-4">{player.name}</td>
-                          <td className="px-6 py-4">{player.points.toLocaleString()}</td>
-                          <td className="px-6 py-4">{player.winRate}%</td>
+                      {getTopRankingsPreview().map((entry, i) => (
+                        <tr key={`${entry.playerName}-${i}`} className="border-b last:border-0">
+                          <td className="px-6 py-4 text-center">
+                            {entry.rank <= 3 ? (
+                              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                                {entry.rank}
+                              </span>
+                            ) : (
+                              <span className="font-bold text-muted-foreground">{entry.rank}</span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4">
+                            <Link
+                              href={`/players/${encodeURIComponent(entry.playerName.trim().toLowerCase().replace(/\s+/g, "-").replace(/[()（）]/g, ""))}`}
+                              className="font-medium hover:text-primary hover:underline"
+                            >
+                              {entry.playerName}
+                            </Link>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <span className="font-semibold">{entry.points.toLocaleString()}</span>
+                            <span className="ml-1 text-xs text-muted-foreground">pt</span>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
