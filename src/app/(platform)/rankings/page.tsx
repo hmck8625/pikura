@@ -155,6 +155,37 @@ export default async function RankingsPage({ searchParams }: Props) {
             データ出典: 日本ピックルボール協会（JPA）
           </Badge>
         </div>
+
+        {/* 記事への内部リンク */}
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          <Link
+            href="/articles"
+            className="rounded-lg border p-4 text-center transition-colors hover:bg-muted/50"
+          >
+            <p className="font-medium">ピックルボール入門</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              初心者向けガイド記事
+            </p>
+          </Link>
+          <Link
+            href="/events"
+            className="rounded-lg border p-4 text-center transition-colors hover:bg-muted/50"
+          >
+            <p className="font-medium">大会・イベント</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              ランキング対象大会情報
+            </p>
+          </Link>
+          <Link
+            href="/pairs"
+            className="rounded-lg border p-4 text-center transition-colors hover:bg-muted/50"
+          >
+            <p className="font-medium">ペア募集</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              ダブルスのパートナーを探す
+            </p>
+          </Link>
+        </div>
       </main>
       <Footer />
     </>

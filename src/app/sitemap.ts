@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllArticleSlugs } from "@/lib/microcms/queries";
+import { getAllPlayerSlugs } from "@/lib/ranking/data";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -17,6 +18,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "weekly",
     priority: 0.7,
   }));
+
+  // 選手ページ（124名分）
+  const playerEntries: MetadataRoute.Sitemap = getAllPlayerSlugs().map(
+    (slug) => ({
+      url: `${BASE_URL}/players/${encodeURIComponent(slug)}`,
+      lastModified: new Date("2026-02-26"),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })
+  );
 
   return [
     {
@@ -50,6 +61,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     ...articleEntries,
+    ...playerEntries,
     {
       url: `${BASE_URL}/terms`,
       lastModified: new Date(),

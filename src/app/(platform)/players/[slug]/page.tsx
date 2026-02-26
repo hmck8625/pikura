@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/layouts/header";
 import { Footer } from "@/components/layouts/footer";
 import { PlayerShareButtons } from "@/components/features/ranking/player-share-buttons";
+import { PlayerJsonLd, BreadcrumbJsonLd } from "@/components/features/seo/json-ld";
 import { getPlayerBySlug, getAllPlayerSlugs } from "@/lib/ranking/data";
 import { CATEGORY_LABELS, AGE_GROUP_LABELS } from "@/lib/ranking/types";
 
@@ -54,6 +55,20 @@ export default async function PlayerPage({ params }: Props) {
 
   return (
     <>
+      <PlayerJsonLd
+        name={player.name}
+        slug={player.slug}
+        bestRank={player.bestRank}
+        totalPoints={player.totalPoints}
+        bestCategory={bestCatLabel}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "ホーム", url: "https://pikura.app" },
+          { name: "ランキング", url: "https://pikura.app/rankings" },
+          { name: player.name, url: `https://pikura.app/players/${encodeURIComponent(player.slug)}` },
+        ]}
+      />
       <Header />
       <main className="container mx-auto px-4 py-12">
         <div className="mb-6">

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/features/seo/json-ld";
 import { getArticleBySlug, getAllArticleSlugs } from "@/lib/microcms/queries";
 import type { Article } from "@/types";
 
@@ -105,6 +108,22 @@ export default async function ArticleDetailPage({ params }: Props) {
   }
 
   return (
+    <>
+    <ArticleJsonLd
+      title={article.title}
+      description={article.description}
+      slug={article.slug}
+      publishedAt={article.publishedAt}
+      updatedAt={article.updatedAt}
+      thumbnailUrl={article.thumbnail?.url}
+    />
+    <BreadcrumbJsonLd
+      items={[
+        { name: "ホーム", url: "https://pikura.app" },
+        { name: "記事一覧", url: "https://pikura.app/articles" },
+        { name: article.title, url: `https://pikura.app/articles/${article.slug}` },
+      ]}
+    />
     <article className="container mx-auto max-w-3xl px-4 py-12">
       {article.thumbnail && (
         <div className="relative mb-8 aspect-video overflow-hidden rounded-lg">
@@ -132,6 +151,31 @@ export default async function ArticleDetailPage({ params }: Props) {
         className="prose max-w-none prose-headings:font-bold prose-a:text-primary prose-img:rounded-lg"
         dangerouslySetInnerHTML={{ __html: article.content }}
       />
+
+      {/* 内部リンク: ランキングへの導線 */}
+      <Separator className="my-10" />
+      <div className="rounded-lg border bg-muted/30 p-6 text-center">
+        <p className="text-lg font-bold">JPA公式ランキングをチェック</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          日本ピックルボール協会（JPA）公式ランキングを、カテゴリ別・年齢別で検索できます。
+        </p>
+        <Button asChild className="mt-4">
+          <Link href="/rankings">ランキングを見る</Link>
+        </Button>
+      </div>
+
+      {/* 関連記事リンク */}
+      <div className="mt-8">
+        <p className="mb-3 text-sm font-medium text-muted-foreground">
+          関連記事
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Button asChild variant="outline" size="sm">
+            <Link href="/articles">記事一覧を見る</Link>
+          </Button>
+        </div>
+      </div>
     </article>
+    </>
   );
 }

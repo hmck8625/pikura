@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Header } from "@/components/layouts/header";
 import { Footer } from "@/components/layouts/footer";
+import { WebsiteJsonLd } from "@/components/features/seo/json-ld";
 import { getArticleList } from "@/lib/microcms/queries";
 import { getTopRankingsPreview, getUniquePlayerCount } from "@/lib/ranking/data";
 import type { Article } from "@/types";
@@ -85,6 +86,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <WebsiteJsonLd />
       <Header />
       <main>
         {/* Hero Section */}
