@@ -15,6 +15,7 @@
 | CMS | microCMS (記事管理) |
 | 決済 (将来) | Stripe |
 | OGP生成 | @vercel/og |
+| AI生成 | Gemini API (テキスト+画像) |
 
 ## ディレクトリ構造
 
@@ -101,6 +102,32 @@ public/                 # 静的ファイル
 - **実装**: `lib/ranking/data.ts` に157エントリーを静的TypeScriptデータとして格納
 - **選手数**: 124名（カテゴリ横断で名寄せ済み）
 - **カテゴリ**: 男子/女子シングルス・ダブルス、混合ダブルス(男性/女性) × 年齢区分(19+/35+/50+)
+
+## Gemini API（コンテンツ自動生成）
+
+- **APIキー**: 環境変数 `GEMINI_API_KEY`（`.env.local` に設定済み）
+- **テキスト生成**: `gemini-2.5-flash`（無料枠: 10RPM / 250RPD）
+- **画像生成**: `gemini-2.5-flash-image`（有料: ¥3-6/枚）
+- **コスト管理**: 画像生成は月50枚以内（月¥500以下）。不要な大量生成は禁止
+- **自動化スクリプト**:
+  - `scripts/generate-tweets.mjs` — ツイート5候補生成（無料）
+  - `scripts/generate-eyecatch.mjs` — 記事アイキャッチ画像生成（有料・確認付き）
+  - `scripts/generate-video-script.mjs` — ショート動画台本生成（無料）
+- **アイキャッチ画像**: `public/images/articles/{slug}.png`（16:9、1K解像度）
+
+## スキル（繰り返し作業の定義）
+
+- **スキル定義**: `.claude/commands/` ディレクトリにMarkdownファイルで定義
+- **定義済みスキル**:
+  - `/generate-tweets` — X投稿候補の自動生成
+  - `/generate-eyecatch` — 記事アイキャッチ画像の生成
+  - `/generate-video-script` — ショート動画台本の生成
+  - `/import-articles` — microCMSへの記事一括入稿
+  - `/weekly-review` — 週次レビュー・AIチームMTG
+- **運用ルール**:
+  - 繰り返し発生する作業は必ずスキルとして定義すること
+  - スキルの中身は週次レビュー時に確認し、データや手順が古くなっていれば更新する
+  - 新しい定期作業が発生したら即座にスキルファイルを作成する
 
 ## やってはいけないこと
 
