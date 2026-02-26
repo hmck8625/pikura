@@ -4,30 +4,50 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Header } from "@/components/layouts/header";
 import { Footer } from "@/components/layouts/footer";
+import { getArticleList } from "@/lib/microcms/queries";
+import type { Article } from "@/types";
 
-const mockArticles = [
+export const revalidate = 3600;
+
+const fallbackArticles: Pick<Article, "id" | "title" | "slug" | "category" | "publishedAt">[] = [
   {
     id: "1",
     title: "ピックルボールとは？初心者向け完全ガイド",
     slug: "what-is-pickleball",
-    category: "入門",
-    publishedAt: "2026-02-20",
+    category: "beginner",
+    publishedAt: "2026-02-20T00:00:00.000Z",
   },
   {
     id: "2",
     title: "2026年注目の国内大会スケジュール",
     slug: "2026-tournament-schedule",
-    category: "ニュース",
-    publishedAt: "2026-02-18",
+    category: "events",
+    publishedAt: "2026-02-18T00:00:00.000Z",
   },
   {
     id: "3",
     title: "ピックルボールの基本ルールを徹底解説",
     slug: "pickleball-rules",
-    category: "ルール",
-    publishedAt: "2026-02-15",
+    category: "rules",
+    publishedAt: "2026-02-15T00:00:00.000Z",
   },
 ];
+
+const categoryLabels: Record<string, string> = {
+  beginner: "入門",
+  rules: "ルール",
+  gear: "ギア",
+  events: "大会",
+  tips: "戦術",
+};
+
+function formatDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
 
 const mockRankings = [
   { rank: 1, name: "田中 太郎", points: 2450, winRate: 78 },
@@ -59,7 +79,15 @@ const mockEvents = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  let articles: Pick<Article, "id" | "title" | "slug" | "category" | "publishedAt">[];
+  try {
+    const response = await getArticleList({ limit: 3 });
+    articles = response.contents.length > 0 ? response.contents : fallbackArticles;
+  } catch {
+    articles = fallbackArticles;
+  }
+
   return (
     <>
       <Header />
@@ -97,11 +125,13 @@ export default function HomePage() {
               </Button>
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {mockArticles.map((article) => (
+              {articles.map((article) => (
                 <Card key={article.id}>
                   <CardHeader>
                     <div className="mb-2">
-                      <Badge variant="secondary">{article.category}</Badge>
+                      <Badge variant="secondary">
+                        {categoryLabels[article.category] ?? article.category}
+                      </Badge>
                     </div>
                     <CardTitle className="text-lg">
                       <Link
@@ -114,7 +144,7 @@ export default function HomePage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-muted-foreground">
-                      {article.publishedAt}
+                      {formatDate(article.publishedAt)}
                     </p>
                   </CardContent>
                 </Card>

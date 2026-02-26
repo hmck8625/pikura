@@ -1,8 +1,23 @@
 import type { MetadataRoute } from "next";
+import { getAllArticleSlugs } from "@/lib/microcms/queries";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  let articleSlugs: string[] = [];
+  try {
+    articleSlugs = await getAllArticleSlugs();
+  } catch {
+    // microCMS unavailable - continue with static pages only
+  }
+
+  const articleEntries: MetadataRoute.Sitemap = articleSlugs.map((slug) => ({
+    url: `${BASE_URL}/articles/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
   return [
     {
       url: BASE_URL,
@@ -34,6 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 0.7,
     },
+    ...articleEntries,
     {
       url: `${BASE_URL}/terms`,
       lastModified: new Date(),

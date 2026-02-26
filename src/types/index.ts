@@ -54,17 +54,17 @@ export type Article = {
   id: string;
   title: string;
   slug: string;
+  description: string;
   content: string;
-  eyecatch: {
+  category: string;
+  tags?: string[];
+  thumbnail?: {
     url: string;
     width: number;
     height: number;
-  } | null;
-  category: {
-    id: string;
-    name: string;
   };
   publishedAt: string;
+  createdAt: string;
   updatedAt: string;
 };
 
