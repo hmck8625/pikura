@@ -114,6 +114,12 @@ public/                 # 静的ファイル
   - `scripts/generate-eyecatch.mjs` — 記事アイキャッチ画像生成（有料・確認付き）
   - `scripts/generate-video-script.mjs` — ショート動画台本生成（無料）
 - **アイキャッチ画像**: `public/images/articles/{slug}.png`（16:9、1K解像度）
+- **ショート動画パイプライン**: `scripts/article-to-short.mjs`（記事スラッグ→台本→画像→TTS→MP4を一括生成）
+- **ショート動画個別スクリプト**:
+  - `scripts/generate-short-frames.mjs` — フレーム画像生成（有料）
+  - `scripts/generate-short-video.mjs` — FFmpeg+TTS動画組み立て（無料）
+- **TTS**: Google Cloud Text-to-Speech API（ja-JP-Neural2-B、月100万文字無料）
+- **動画生成**: FFmpeg必須（`sudo apt install ffmpeg`）
 
 ## スキル（繰り返し作業の定義）
 
@@ -122,6 +128,7 @@ public/                 # 静的ファイル
   - `/generate-tweets` — X投稿候補の自動生成
   - `/generate-eyecatch` — 記事アイキャッチ画像の生成
   - `/generate-video-script` — ショート動画台本の生成
+  - `/generate-short` — 記事→ショート動画の一括生成パイプライン
   - `/import-articles` — microCMSへの記事一括入稿
   - `/weekly-review` — 週次レビュー・AIチームMTG
 - **運用ルール**:
