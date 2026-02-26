@@ -6,7 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/features/seo/json-ld";
+import { ProductList } from "@/components/features/articles/product-card";
 import { getArticleBySlug, getAllArticleSlugs } from "@/lib/microcms/queries";
+import { getProductsForArticle, getProductSectionTitle } from "@/lib/affiliate/products";
 import type { Article } from "@/types";
 
 export const revalidate = 3600;
@@ -107,6 +109,9 @@ export default async function ArticleDetailPage({ params }: Props) {
     notFound();
   }
 
+  const products = getProductsForArticle(article.slug);
+  const productTitle = getProductSectionTitle(article.slug);
+
   return (
     <>
     <ArticleJsonLd
@@ -175,6 +180,11 @@ export default async function ArticleDetailPage({ params }: Props) {
           </Button>
         </div>
       </div>
+
+      {/* 関連商品（控えめに記事最下部に配置） */}
+      {products.length > 0 && (
+        <ProductList products={products} title={productTitle} />
+      )}
     </article>
     </>
   );
