@@ -239,19 +239,15 @@ export default async function ArticlesPage({ searchParams }: Props) {
           {filteredArticles.map((article) => (
             <Card key={article.id} className="overflow-hidden transition-colors hover:bg-muted/50">
               <Link href={`/articles/${article.slug}`}>
-                {article.thumbnail ? (
-                  <div className="relative aspect-video">
-                    <Image
-                      src={article.thumbnail.url}
-                      alt={article.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
-                ) : (
-                  <ArticleThumbnailPlaceholder category={article.category} />
-                )}
+                <div className="relative aspect-video">
+                  <Image
+                    src={article.thumbnail?.url ?? `/images/articles/${article.slug}.png`}
+                    alt={article.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                </div>
               </Link>
               <CardHeader>
                 <div className="mb-2">

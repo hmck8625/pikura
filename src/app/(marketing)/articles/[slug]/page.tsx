@@ -93,7 +93,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: article.description,
       images: [
         article.thumbnail?.url ??
-          `/api/og?type=article&title=${encodeURIComponent(article.title)}`,
+          `/images/articles/${article.slug}.png`,
       ],
     },
   };
@@ -115,6 +115,7 @@ export default async function ArticleDetailPage({ params }: Props) {
 
   const products = getProductsForArticle(article.slug);
   const productTitle = getProductSectionTitle(article.slug);
+  const thumbnailUrl = article.thumbnail?.url ?? `/images/articles/${article.slug}.png`;
 
   return (
     <>
@@ -124,7 +125,7 @@ export default async function ArticleDetailPage({ params }: Props) {
       slug={article.slug}
       publishedAt={article.publishedAt}
       updatedAt={article.updatedAt}
-      thumbnailUrl={article.thumbnail?.url}
+      thumbnailUrl={thumbnailUrl}
     />
     <BreadcrumbJsonLd
       items={[
@@ -134,18 +135,16 @@ export default async function ArticleDetailPage({ params }: Props) {
       ]}
     />
     <article className="container mx-auto max-w-3xl px-4 py-12">
-      {article.thumbnail && (
-        <div className="relative mb-8 aspect-video overflow-hidden rounded-lg">
-          <Image
-            src={article.thumbnail.url}
-            alt={article.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 768px"
-            priority
-          />
-        </div>
-      )}
+      <div className="relative mb-8 aspect-video overflow-hidden rounded-lg">
+        <Image
+          src={thumbnailUrl}
+          alt={article.title}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 768px"
+          priority
+        />
+      </div>
       <div className="mb-4">
         <Badge variant="secondary">
           {categoryLabels[article.category] ?? article.category}
