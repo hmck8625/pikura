@@ -92,8 +92,12 @@ export default async function HomePage() {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-b from-primary/5 to-background py-16 md:py-28">
-          <div className="container mx-auto px-4 text-center">
+        <section className="relative overflow-hidden bg-gradient-to-b from-primary/10 to-background py-16 md:py-28">
+          <div
+            className="absolute inset-0 bg-[url('/images/hero/hero-pickleball.png')] bg-cover bg-center opacity-[0.07]"
+            aria-hidden="true"
+          />
+          <div className="container relative mx-auto px-4 text-center">
             <Badge variant="secondary" className="mb-4">
               JPA公式ランキング公開中
             </Badge>

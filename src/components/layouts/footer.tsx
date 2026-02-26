@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 
@@ -26,8 +27,15 @@ export function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           <div>
-            <Link href="/" className="text-lg font-bold tracking-tight">
-              pikura
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/images/brand/logo-icon.png"
+                alt="pikura"
+                width={28}
+                height={28}
+                className="h-7 w-7"
+              />
+              <span className="text-lg font-bold tracking-tight text-primary">pikura</span>
             </Link>
             <p className="mt-2 text-sm text-muted-foreground">
               日本最大のピックルボールプラットフォーム

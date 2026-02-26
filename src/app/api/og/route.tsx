@@ -73,7 +73,7 @@ function renderPlayerOg(searchParams: URLSearchParams) {
                 width: 160,
                 height: 160,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+                background: "linear-gradient(135deg, #0EA5E9, #10B981)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -151,7 +151,7 @@ function renderArticleOg(searchParams: URLSearchParams) {
             gap: "12px",
           }}
         >
-          <div style={{ fontSize: 28, color: "#3b82f6", fontWeight: "bold" }}>
+          <div style={{ fontSize: 28, color: "#0EA5E9", fontWeight: "bold" }}>
             pikura
           </div>
           <div

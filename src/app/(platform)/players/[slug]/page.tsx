@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -88,9 +89,13 @@ export default async function PlayerPage({ params }: Props) {
           <div className="md:col-span-1">
             <Card>
               <CardHeader>
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
-                  {player.name.charAt(0)}
-                </div>
+                <Image
+                  src="/images/brand/default-avatar.png"
+                  alt={player.name}
+                  width={80}
+                  height={80}
+                  className="h-20 w-20 rounded-full object-cover"
+                />
                 <CardTitle className="mt-4 text-xl">{player.name}</CardTitle>
                 <p className="text-sm text-muted-foreground">
                   JPA公式ランキング選手

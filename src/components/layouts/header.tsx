@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { MobileNav } from "@/components/layouts/mobile-nav";
 
@@ -12,8 +13,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="text-xl font-bold tracking-tight">
-          pikura
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/images/brand/logo-icon.png"
+            alt="pikura"
+            width={32}
+            height={32}
+            className="h-8 w-8"
+          />
+          <span className="text-xl font-bold tracking-tight text-primary">pikura</span>
         </Link>
 
         <nav className="hidden md:flex md:items-center md:gap-6">

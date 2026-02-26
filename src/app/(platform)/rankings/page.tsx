@@ -44,20 +44,24 @@ export default async function RankingsPage({ searchParams }: Props) {
   return (
     <>
       <Header />
-      <main className="container mx-auto px-4 py-12">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">JPA公式ランキング</h1>
-          <p className="mt-2 text-muted-foreground">
-            日本ピックルボール協会（JPA）公式ランキング / 2026年1月
-          </p>
-          <div className="mt-2 flex gap-3 text-sm text-muted-foreground">
-            <span>{uniquePlayers}名の選手</span>
-            <span>|</span>
-            <span>{totalEntries}エントリー</span>
-            <span>|</span>
-            <span>15カテゴリ</span>
+      <main>
+        {/* ランキングヘッダーバナー */}
+        <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-emerald-500/10 py-10">
+          <div className="container mx-auto px-4">
+            <h1 className="text-3xl font-bold">JPA公式ランキング</h1>
+            <p className="mt-2 text-muted-foreground">
+              日本ピックルボール協会（JPA）公式ランキング / 2026年1月
+            </p>
+            <div className="mt-2 flex gap-3 text-sm text-muted-foreground">
+              <span>{uniquePlayers}名の選手</span>
+              <span>|</span>
+              <span>{totalEntries}エントリー</span>
+              <span>|</span>
+              <span>15カテゴリ</span>
+            </div>
           </div>
         </div>
+        <div className="container mx-auto px-4 py-8">
 
         {/* フィルター */}
         <div className="mb-8">
@@ -194,6 +198,7 @@ export default async function RankingsPage({ searchParams }: Props) {
               ダブルスのパートナーを探す
             </p>
           </Link>
+        </div>
         </div>
       </main>
       <Footer />
