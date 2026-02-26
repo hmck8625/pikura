@@ -84,83 +84,51 @@ export default async function HomePage() {
     articles = fallbackArticles;
   }
 
+  const playerCount = getUniquePlayerCount();
+
   return (
     <>
       <WebsiteJsonLd />
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-b from-primary/5 to-background py-20 md:py-32">
+        <section className="bg-gradient-to-b from-primary/5 to-background py-16 md:py-28">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl font-bold tracking-tight md:text-6xl">
-              日本最大の
-              <br />
-              ピックルボールプラットフォーム
+            <Badge variant="secondary" className="mb-4">
+              JPA公式ランキング公開中
+            </Badge>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-6xl">
+              ピックルボールの
+              <br className="hidden sm:block" />
+              すべてが、ここに。
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-              最新ニュース、ランキング、イベント情報、ペア募集など、
-              ピックルボールに関するすべてがここに。
+            <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground sm:mt-6 sm:text-lg">
+              JPA公式ランキング・大会情報・入門ガイド。
+              <br className="hidden sm:block" />
+              {playerCount}名の選手データを無料で閲覧できます。
             </p>
-            <div className="mt-8 flex justify-center gap-4">
-              <Button asChild size="lg">
-                <Link href="/login">無料で始める</Link>
+            <div className="mt-6 flex flex-col justify-center gap-3 sm:mt-8 sm:flex-row sm:gap-4">
+              <Button asChild size="lg" className="w-full sm:w-auto">
+                <Link href="/rankings">ランキングを見る</Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
+              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
                 <Link href="/articles">記事を読む</Link>
               </Button>
             </div>
           </div>
         </section>
 
-        {/* Latest Articles */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="mb-8 flex items-center justify-between">
-              <h2 className="text-2xl font-bold">最新記事</h2>
-              <Button asChild variant="ghost">
-                <Link href="/articles">すべて見る</Link>
-              </Button>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {articles.map((article) => (
-                <Card key={article.id}>
-                  <CardHeader>
-                    <div className="mb-2">
-                      <Badge variant="secondary">
-                        {categoryLabels[article.category] ?? article.category}
-                      </Badge>
-                    </div>
-                    <CardTitle className="text-lg">
-                      <Link
-                        href={`/articles/${article.slug}`}
-                        className="hover:underline"
-                      >
-                        {article.title}
-                      </Link>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      {formatDate(article.publishedAt)}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Rankings Preview */}
-        <section className="bg-muted/30 py-16">
+        <section className="bg-muted/30 py-12 sm:py-16">
           <div className="container mx-auto px-4">
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-6 flex items-center justify-between sm:mb-8">
               <div>
-                <h2 className="text-2xl font-bold">JPA公式ランキング</h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {getUniquePlayerCount()}名の選手が登録 / 男子ダブルス 一般
+                <h2 className="text-xl font-bold sm:text-2xl">JPA公式ランキング</h2>
+                <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
+                  {playerCount}名の選手が登録 / 男子ダブルス 一般
                 </p>
               </div>
-              <Button asChild variant="ghost">
+              <Button asChild variant="ghost" size="sm">
                 <Link href="/rankings">すべて見る</Link>
               </Button>
             </div>
@@ -169,34 +137,34 @@ export default async function HomePage() {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b text-left text-sm font-medium text-muted-foreground">
-                        <th className="w-16 px-6 py-3 text-center">順位</th>
-                        <th className="px-6 py-3">選手名</th>
-                        <th className="px-6 py-3 text-right">ポイント</th>
+                      <tr className="border-b text-left text-xs font-medium text-muted-foreground sm:text-sm">
+                        <th className="w-12 px-3 py-3 text-center sm:w-16 sm:px-6">順位</th>
+                        <th className="px-3 py-3 sm:px-6">選手名</th>
+                        <th className="px-3 py-3 text-right sm:px-6">ポイント</th>
                       </tr>
                     </thead>
                     <tbody>
                       {getTopRankingsPreview().map((entry, i) => (
                         <tr key={`${entry.playerName}-${i}`} className="border-b last:border-0">
-                          <td className="px-6 py-4 text-center">
+                          <td className="px-3 py-3 text-center sm:px-6 sm:py-4">
                             {entry.rank <= 3 ? (
-                              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground sm:h-7 sm:w-7">
                                 {entry.rank}
                               </span>
                             ) : (
-                              <span className="font-bold text-muted-foreground">{entry.rank}</span>
+                              <span className="text-sm font-bold text-muted-foreground">{entry.rank}</span>
                             )}
                           </td>
-                          <td className="px-6 py-4">
+                          <td className="px-3 py-3 sm:px-6 sm:py-4">
                             <Link
                               href={`/players/${encodeURIComponent(entry.playerName.trim().toLowerCase().replace(/\s+/g, "-").replace(/[()（）]/g, ""))}`}
-                              className="font-medium hover:text-primary hover:underline"
+                              className="text-sm font-medium hover:text-primary hover:underline"
                             >
                               {entry.playerName}
                             </Link>
                           </td>
-                          <td className="px-6 py-4 text-right">
-                            <span className="font-semibold">{entry.points.toLocaleString()}</span>
+                          <td className="px-3 py-3 text-right sm:px-6 sm:py-4">
+                            <span className="text-sm font-semibold">{entry.points.toLocaleString()}</span>
                             <span className="ml-1 text-xs text-muted-foreground">pt</span>
                           </td>
                         </tr>
@@ -206,26 +174,69 @@ export default async function HomePage() {
                 </div>
               </CardContent>
             </Card>
+            <div className="mt-4 text-center">
+              <Button asChild variant="outline">
+                <Link href="/rankings">全カテゴリのランキングを見る</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Latest Articles */}
+        <section className="py-12 sm:py-16">
+          <div className="container mx-auto px-4">
+            <div className="mb-6 flex items-center justify-between sm:mb-8">
+              <h2 className="text-xl font-bold sm:text-2xl">最新記事</h2>
+              <Button asChild variant="ghost" size="sm">
+                <Link href="/articles">すべて見る</Link>
+              </Button>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+              {articles.map((article) => (
+                <Card key={article.id} className="transition-colors hover:bg-muted/50">
+                  <CardHeader>
+                    <div className="mb-2">
+                      <Badge variant="secondary">
+                        {categoryLabels[article.category] ?? article.category}
+                      </Badge>
+                    </div>
+                    <CardTitle className="text-base sm:text-lg">
+                      <Link
+                        href={`/articles/${article.slug}`}
+                        className="hover:underline"
+                      >
+                        {article.title}
+                      </Link>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-xs text-muted-foreground sm:text-sm">
+                      {formatDate(article.publishedAt)}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* Events Preview */}
-        <section className="py-16">
+        <section className="border-t bg-muted/20 py-12 sm:py-16">
           <div className="container mx-auto px-4">
-            <div className="mb-8 flex items-center justify-between">
-              <h2 className="text-2xl font-bold">注目のイベント</h2>
-              <Button asChild variant="ghost">
+            <div className="mb-6 flex items-center justify-between sm:mb-8">
+              <h2 className="text-xl font-bold sm:text-2xl">注目のイベント</h2>
+              <Button asChild variant="ghost" size="sm">
                 <Link href="/events">すべて見る</Link>
               </Button>
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {mockEvents.map((event) => (
-                <Card key={event.id}>
+                <Card key={event.id} className="transition-colors hover:bg-muted/50">
                   <CardHeader>
                     <div className="mb-2">
                       <Badge variant="outline">{event.level}</Badge>
                     </div>
-                    <CardTitle className="text-lg">
+                    <CardTitle className="text-base sm:text-lg">
                       <Link
                         href={`/events/${event.id}`}
                         className="hover:underline"
@@ -235,7 +246,7 @@ export default async function HomePage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs text-muted-foreground sm:text-sm">
                       {event.date} / {event.location}
                     </p>
                   </CardContent>
@@ -246,23 +257,33 @@ export default async function HomePage() {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-primary py-20 text-primary-foreground">
+        <section className="bg-primary py-16 text-primary-foreground sm:py-20">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold">
-              ピックルボールを始めよう
+            <h2 className="text-2xl font-bold sm:text-3xl">
+              ピックルボールを、もっと楽しく。
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-primary-foreground/80">
-              ランキング確認、イベント参加、ペア探し。
-              すべて無料で利用できます。
+            <p className="mx-auto mt-4 max-w-xl text-sm text-primary-foreground/80 sm:text-base">
+              ランキング確認、大会情報、入門ガイド。
+              日本のピックルボール情報はピクラでチェック。
             </p>
-            <Button
-              asChild
-              size="lg"
-              variant="secondary"
-              className="mt-8"
-            >
-              <Link href="/login">無料で始める</Link>
-            </Button>
+            <div className="mt-6 flex flex-col justify-center gap-3 sm:mt-8 sm:flex-row sm:gap-4">
+              <Button
+                asChild
+                size="lg"
+                variant="secondary"
+                className="w-full sm:w-auto"
+              >
+                <Link href="/rankings">ランキングを見る</Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="w-full border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 sm:w-auto"
+              >
+                <Link href="/articles">記事を読む</Link>
+              </Button>
+            </div>
           </div>
         </section>
       </main>

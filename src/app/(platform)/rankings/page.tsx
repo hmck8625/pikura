@@ -14,6 +14,15 @@ export const metadata: Metadata = {
   title: "JPA公式ランキング",
   description:
     "日本ピックルボール協会（JPA）公式ランキング。男子/女子シングルス・ダブルス・混合ダブルス、年齢区分別に検索・閲覧できます。",
+  alternates: {
+    canonical: "/rankings",
+  },
+  openGraph: {
+    title: "JPA公式ランキング | ピクラ",
+    description:
+      "日本ピックルボール協会（JPA）公式ランキング。カテゴリ別・年齢区分別に検索・閲覧できます。",
+    images: ["/api/og?type=rankings"],
+  },
 };
 
 type Props = {

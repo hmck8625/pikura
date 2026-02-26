@@ -6,6 +6,15 @@ export const metadata: Metadata = {
   title: "ペア募集",
   description:
     "ピックルボールのダブルス大会に向けたペア募集一覧。パートナーを見つけよう。",
+  alternates: {
+    canonical: "/pairs",
+  },
+  openGraph: {
+    title: "ペア募集 | ピクラ",
+    description:
+      "ピックルボールのダブルス大会に向けたペア募集一覧。パートナーを見つけよう。",
+    images: ["/api/og?type=default"],
+  },
 };
 
 const mockPairRequests = [

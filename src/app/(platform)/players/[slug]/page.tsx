@@ -31,6 +31,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${player.name} | JPA公式ランキング・戦績`,
     description,
+    alternates: {
+      canonical: `/players/${encodeURIComponent(slug)}`,
+    },
     openGraph: {
       title: `${player.name} | ピックルボールランキング`,
       description,

@@ -6,7 +6,16 @@ import { Badge } from "@/components/ui/badge";
 export const metadata: Metadata = {
   title: "イベント一覧",
   description:
-    "ピックルボールの大会、練習会、体験会などのイベント情報一覧。",
+    "ピックルボールの大会、練習会、体験会などのイベント情報一覧。全国の最新イベントをチェック。",
+  alternates: {
+    canonical: "/events",
+  },
+  openGraph: {
+    title: "イベント一覧 | ピクラ",
+    description:
+      "ピックルボールの大会、練習会、体験会などのイベント情報一覧。",
+    images: ["/api/og?type=events"],
+  },
 };
 
 const mockEvents = [

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { getArticleList } from "@/lib/microcms/queries";
 import type { Article } from "@/types";
 
@@ -11,7 +13,10 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "記事一覧",
   description:
-    "ピックルボールに関する最新記事、ルール解説、戦術ガイド、大会レポートなど。",
+    "ピックルボールに関する最新記事、ルール解説、戦術ガイド、大会レポートなど。初心者から上級者まで役立つ情報を掲載。",
+  alternates: {
+    canonical: "/articles",
+  },
 };
 
 const fallbackArticles: Article[] = [
@@ -135,6 +140,14 @@ const categoryLabels: Record<string, string> = {
   tips: "戦術",
 };
 
+const categoryIconLabels: Record<string, string> = {
+  beginner: "入",
+  rules: "ル",
+  gear: "ギ",
+  events: "大",
+  tips: "戦",
+};
+
 function formatDate(dateString: string): string {
   return new Date(dateString).toLocaleDateString("ja-JP", {
     year: "numeric",
@@ -143,7 +156,30 @@ function formatDate(dateString: string): string {
   });
 }
 
-export default async function ArticlesPage() {
+function ArticleThumbnailPlaceholder({ category }: { category: string }) {
+  const label = categoryIconLabels[category] ?? "記";
+  return (
+    <div className="flex aspect-video items-center justify-center bg-muted">
+      <div className="flex flex-col items-center gap-1">
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-lg font-bold text-primary">
+          {label}
+        </span>
+        <span className="text-xs text-muted-foreground">
+          {categoryLabels[category] ?? "記事"}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+type Props = {
+  searchParams: Promise<{ category?: string }>;
+};
+
+export default async function ArticlesPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const selectedCategory = params.category ?? "all";
+
   let articles: Article[];
 
   try {
@@ -153,51 +189,106 @@ export default async function ArticlesPage() {
     articles = fallbackArticles;
   }
 
+  const filteredArticles = selectedCategory === "all"
+    ? articles
+    : articles.filter((a) => a.category === selectedCategory);
+
+  const categories = ["all", ...Object.keys(categoryLabels)] as const;
+
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="mb-8 text-3xl font-bold">記事一覧</h1>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {articles.map((article) => (
-          <Card key={article.id} className="overflow-hidden">
-            {article.thumbnail && (
-              <Link href={`/articles/${article.slug}`}>
-                <div className="relative aspect-video">
-                  <Image
-                    src={article.thumbnail.url}
-                    alt={article.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                </div>
-              </Link>
-            )}
-            <CardHeader>
-              <div className="mb-2">
-                <Badge variant="secondary">
-                  {categoryLabels[article.category] ?? article.category}
-                </Badge>
-              </div>
-              <CardTitle className="text-lg">
-                <Link
-                  href={`/articles/${article.slug}`}
-                  className="hover:underline"
-                >
-                  {article.title}
-                </Link>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-2 text-sm text-muted-foreground">
-                {article.description}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {formatDate(article.publishedAt)}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold">記事一覧</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          ピックルボールに関する入門ガイド、ルール解説、ギアレビュー、大会情報など
+        </p>
       </div>
+
+      {/* カテゴリフィルタ */}
+      <Suspense fallback={null}>
+        <div className="mb-8 flex flex-wrap gap-2">
+          {categories.map((cat) => {
+            const isActive = cat === selectedCategory;
+            const label = cat === "all" ? "すべて" : categoryLabels[cat];
+            return (
+              <Button
+                key={cat}
+                asChild
+                variant={isActive ? "default" : "outline"}
+                size="sm"
+              >
+                <Link
+                  href={cat === "all" ? "/articles" : `/articles?category=${cat}`}
+                >
+                  {label}
+                </Link>
+              </Button>
+            );
+          })}
+        </div>
+      </Suspense>
+
+      {/* 記事件数 */}
+      <p className="mb-4 text-sm text-muted-foreground">
+        {filteredArticles.length}件の記事
+      </p>
+
+      {/* 記事一覧 */}
+      {filteredArticles.length > 0 ? (
+        <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          {filteredArticles.map((article) => (
+            <Card key={article.id} className="overflow-hidden transition-colors hover:bg-muted/50">
+              <Link href={`/articles/${article.slug}`}>
+                {article.thumbnail ? (
+                  <div className="relative aspect-video">
+                    <Image
+                      src={article.thumbnail.url}
+                      alt={article.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  </div>
+                ) : (
+                  <ArticleThumbnailPlaceholder category={article.category} />
+                )}
+              </Link>
+              <CardHeader>
+                <div className="mb-2">
+                  <Badge variant="secondary">
+                    {categoryLabels[article.category] ?? article.category}
+                  </Badge>
+                </div>
+                <CardTitle className="text-base sm:text-lg">
+                  <Link
+                    href={`/articles/${article.slug}`}
+                    className="hover:underline"
+                  >
+                    {article.title}
+                  </Link>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {article.description && (
+                  <p className="mb-2 line-clamp-2 text-sm text-muted-foreground">
+                    {article.description}
+                  </p>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  {formatDate(article.publishedAt)}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div className="rounded-lg border py-12 text-center text-muted-foreground">
+          <p>この条件に一致する記事はまだありません。</p>
+          <Button asChild variant="outline" className="mt-4">
+            <Link href="/articles">すべての記事を見る</Link>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

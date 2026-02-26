@@ -85,11 +85,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: article.title,
     description: article.description,
+    alternates: {
+      canonical: `/articles/${article.slug}`,
+    },
     openGraph: {
       title: article.title,
       description: article.description,
       images: [
-        `/api/og?type=article&title=${encodeURIComponent(article.title)}`,
+        article.thumbnail?.url ??
+          `/api/og?type=article&title=${encodeURIComponent(article.title)}`,
       ],
     },
   };

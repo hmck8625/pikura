@@ -7,7 +7,10 @@ const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
   variable: "--font-noto-sans-jp",
   display: "swap",
+  preload: true,
 });
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://pikura.app";
 
 export const metadata: Metadata = {
   title: {
@@ -15,20 +18,44 @@ export const metadata: Metadata = {
     template: "%s | ピクラ",
   },
   description:
-    "ピクラ（pikura）は日本最大のピックルボール総合プラットフォームです。最新ニュース、ランキング、イベント情報、ペア募集など、ピックルボールに関するすべてがここに。",
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-  ),
+    "ピクラ（pikura）は日本最大のピックルボール総合プラットフォームです。JPA公式ランキング、最新ニュース、大会・イベント情報、ペア募集など、ピックルボールに関するすべてがここに。",
+  metadataBase: new URL(BASE_URL),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "ピクラ - 日本最大のピックルボールプラットフォーム",
     description:
-      "最新ニュース、ランキング、イベント情報、ペア募集など、ピックルボールに関するすべてがここに。",
+      "JPA公式ランキング、最新ニュース、大会・イベント情報、ペア募集など、ピックルボールに関するすべてがここに。",
     siteName: "ピクラ",
     locale: "ja_JP",
     type: "website",
+    images: [
+      {
+        url: "/api/og?type=default",
+        width: 1200,
+        height: 630,
+        alt: "ピクラ - 日本最大のピックルボールプラットフォーム",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    title: "ピクラ - 日本最大のピックルボールプラットフォーム",
+    description:
+      "JPA公式ランキング、最新ニュース、大会・イベント情報。ピックルボールのすべてがここに。",
+    images: ["/api/og?type=default"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
