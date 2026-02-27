@@ -20,7 +20,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "ノンボレーゾーン（キッチン）侵入あるある。警告標識のような洗練されたスポーツロゴデザイン。",
     imagePath: "/images/shop/stay-out-of-the-kitchen.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976712",
     tags: ["キッチン", "あるある", "ルール", "ボレー", "kitchen"],
     published: true,
   },
@@ -37,7 +37,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "ミニマルなタイポグラフィと、隣を指す矢印。ダブルス文化の核心を突くデザイン。",
     imagePath: "/images/shop/my-partners-fault.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976715",
     tags: ["パートナー", "ダブルス", "あるある", "他責", "doubles"],
     published: true,
   },
@@ -54,7 +54,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "激しいラリーのイラストに、警報のような緊急性の高いフォント。中断の瞬間を切り取る。",
     imagePath: "/images/shop/ball-on.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976716",
     tags: ["ボールオン", "レット", "あるある", "ラリー", "let"],
     published: true,
   },
@@ -71,7 +71,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "2本のパドルと2個のボールが空中衝突して火花が散る、ダイナミックなイラスト。",
     imagePath: "/images/shop/dont-interrupt-my-dink.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976721",
     tags: ["ディンク", "あるある", "練習", "dink"],
     published: true,
   },
@@ -88,7 +88,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "大きなスポーツフォントで0-0-START。スコアボード風のクリーンなデザイン。",
     imagePath: "/images/shop/zero-zero-start.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976723",
     tags: ["スコア", "サーブ", "開始", "score", "serve"],
     published: true,
   },
@@ -105,7 +105,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "自信満々のメインテキストに、小さなアスタリスク注釈。自虐ユーモア。",
     imagePath: "/images/shop/third-shot-drop-expert.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976725",
     tags: ["3rdショット", "ドロップ", "あるある", "自称", "third shot"],
     published: true,
   },
@@ -122,7 +122,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "警察バッジ風のエンブレムデザイン。「キッチン違反取締課」のユーモア。",
     imagePath: "/images/shop/kitchen-police.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976727",
     tags: ["キッチン", "ルール", "警察", "あるある", "police"],
     published: true,
   },
@@ -139,7 +139,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "アルコール警告ラベル風のレトロデザイン。ウィットに富んだダブルミーニング。",
     imagePath: "/images/shop/dink-responsibly.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976731",
     tags: ["ディンク", "ユーモア", "レトロ", "dink"],
     published: true,
   },
@@ -156,7 +156,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "エレガントな筆記体とサンセリフの組み合わせ。共感度の高いライフスタイル系。",
     imagePath: "/images/shop/came-for-exercise.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976734",
     tags: ["ライフスタイル", "ソーシャル", "あるある", "exercise"],
     published: true,
   },
@@ -173,7 +173,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "上段は堂々としたフォント、下段は小さなイタリック。レーティング不安あるある。",
     imagePath: "/images/shop/dupr-doesnt-define-me.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976736",
     tags: ["DUPR", "レーティング", "あるある", "rating"],
     published: true,
   },
@@ -192,7 +192,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "ボールドなサンセリフ体。黒地に白、または白地に黒のハイコントラスト。ストリート系。",
     imagePath: "/images/shop/dink-or-die.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976740",
     tags: ["ディンク", "ストリート", "クール", "dink"],
     published: true,
   },
@@ -209,7 +209,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "認定バッジ・スタンプ風のサークルデザイン。EST. 2026の年号入り。",
     imagePath: "/images/shop/kitchen-certified.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976742",
     tags: ["キッチン", "認定", "バッジ", "certified"],
     published: true,
   },
@@ -226,7 +226,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "ミリタリー風のステンシルフォント。力強く、競技的なイメージ。",
     imagePath: "/images/shop/net-game-no-mercy.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976744",
     tags: ["ネット", "アグレッシブ", "競技", "net game"],
     published: true,
   },
@@ -243,7 +243,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "等幅フォントで縦に並べた4アクション。ミニマルでモダン。",
     imagePath: "/images/shop/eat-sleep-dink-repeat.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976747",
     tags: ["ライフスタイル", "ディンク", "ミニマル", "lifestyle"],
     published: true,
   },
@@ -260,7 +260,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "レトロヒップホップ風のグラフィティフォント。ポップカルチャーとスポーツの融合。",
     imagePath: "/images/shop/drop-it-like-its-hot.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976749",
     tags: ["ドロップ", "ヒップホップ", "ポップ", "drop shot"],
     published: true,
   },
@@ -279,7 +279,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "手書き風の日本語フォントで真顔の否認。背景にキッチンラインのイラスト。",
     imagePath: "/images/shop/kitchen-haittemasen.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976750",
     tags: ["キッチン", "日本語", "あるある", "言い訳"],
     published: true,
   },
@@ -296,7 +296,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "書道風の力強い筆文字。和風×スポーツのクロスオーバー。",
     imagePath: "/images/shop/dink-shugyochu.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976754",
     tags: ["ディンク", "修行", "日本語", "和風"],
     published: true,
   },
@@ -313,7 +313,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "求人広告風のレトロポスターデザイン。実用性もあるユーモア。",
     imagePath: "/images/shop/partner-boshuchu.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976759",
     tags: ["パートナー", "募集", "ダブルス", "日本語"],
     published: true,
   },
@@ -330,7 +330,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "シンプルなゴシック体。ステートメント系のミニマルデザイン。",
     imagePath: "/images/shop/pickler-desu.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976762",
     tags: ["ピクラー", "アイデンティティ", "日本語", "シンプル"],
     published: true,
   },
@@ -347,7 +347,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "カジュアルな丸ゴシック。日常感のある親しみやすいデザイン。",
     imagePath: "/images/shop/kyo-mo-pickle.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976765",
     tags: ["ピクる", "日常", "日本語", "カジュアル"],
     published: true,
   },
@@ -366,7 +366,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "パドルとボールの幾何学的シルエット。単色。ミニマルアート。",
     imagePath: "/images/shop/minimal-paddle.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976767",
     tags: ["パドル", "ミニマル", "アート", "シルエット"],
     published: true,
   },
@@ -383,7 +383,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "青写真（ブループリント）風のコート図面。寸法線、注釈付き。エンジニア心をくすぐる。",
     imagePath: "/images/shop/court-blueprint.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976770",
     tags: ["コート", "設計図", "ブループリント", "アート"],
     published: true,
   },
@@ -400,7 +400,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "浮世絵スタイルの大波にピックルボールが浮かぶ。ジャパニーズポップアート。",
     imagePath: "/images/shop/japanese-wave-pickle.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976771",
     tags: ["浮世絵", "和風", "アート", "北斎", "ukiyo-e"],
     published: true,
   },
@@ -417,7 +417,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "ネオンサイン風のグロー効果。パドルとボールのアイコン。暗い背景に映える。",
     imagePath: "/images/shop/neon-pickle.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976772",
     tags: ["ネオン", "レトロ", "アート", "neon"],
     published: true,
   },
@@ -434,7 +434,7 @@ const PRODUCTS: Product[] = [
     designConcept:
       "pikuraロゴをメインに配置。ブランドカラー（スカイブルー）のアクセント。",
     imagePath: "/images/shop/pikura-original.png",
-    purchaseUrl: null,
+    purchaseUrl: "https://pikura.official.ec/items/136976773",
     tags: ["ピクラ", "ブランド", "オリジナル", "ロゴ"],
     published: true,
   },

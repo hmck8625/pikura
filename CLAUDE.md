@@ -167,6 +167,7 @@ public/                 # 静的ファイル
   - `/update-sitemap` — サイトマップの確認・更新
   - `/weekly-review` — 週次レビュー・AIチームMTG
   - `/register-base-products` — BASE APIで商品一括登録・画像アップロード
+  - `/add-product` — 新商品追加ワークフロー（データ追加→画像生成→デプロイ→BASE登録）
   - `/upload-youtube` — YouTube Shortsのアップロード
 - **運用ルール**:
   - 繰り返し発生する作業は必ずスキルとして定義すること
