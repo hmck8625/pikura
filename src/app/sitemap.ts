@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllArticleSlugs } from "@/lib/microcms/queries";
 import { getAllPlayerSlugs } from "@/lib/ranking/data";
+import { getAllEventIds } from "@/lib/events/data";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -28,6 +29,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     })
   );
+
+  // イベント個別ページ
+  const eventEntries: MetadataRoute.Sitemap = getAllEventIds().map((id) => ({
+    url: `${BASE_URL}/events/${id}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.5,
+  }));
 
   return [
     {
@@ -62,6 +71,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...articleEntries,
     ...playerEntries,
+    ...eventEntries,
     {
       url: `${BASE_URL}/terms`,
       lastModified: new Date(),

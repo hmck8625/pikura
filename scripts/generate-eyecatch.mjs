@@ -66,6 +66,15 @@ const ARTICLE_PROMPTS = {
 
   "jpa-ranking-explained":
     "Modern data visualization illustration showing ranking leaderboard. Numbers, charts, podium. Clean digital style.",
+
+  "youtube-channels":
+    "Illustration of a tablet or phone screen showing video thumbnails of pickleball matches. Play buttons, subscribe icons. Modern, colorful. Clean digital design.",
+
+  "paddle-shop-guide":
+    "Illustration of a pickleball pro shop interior with paddles displayed on wall racks. Warm lighting, organized shelves. Inviting retail atmosphere.",
+
+  "funamizu-pickleball":
+    "Dynamic illustration of a professional pickleball player in action, hitting a powerful shot on a tournament court. Energetic pose, stadium background. Japanese sports illustration style.",
 };
 
 /** 全記事スラッグ一覧 */

@@ -103,6 +103,17 @@ public/                 # 静的ファイル
 - **選手数**: 124名（カテゴリ横断で名寄せ済み）
 - **カテゴリ**: 男子/女子シングルス・ダブルス、混合ダブルス(男性/女性) × 年齢区分(19+/35+/50+)
 
+## イベントデータ
+
+- **データソース**: JPA公式サイト WordPress REST API（https://japanpickleball.org）
+- **実装**: `lib/events/data.ts` に静的TypeScriptデータとして格納（自動生成ファイル）
+- **取得スクリプト**: `scripts/fetch-jpa-events.mjs`
+  - 使い方: `node scripts/fetch-jpa-events.mjs`
+  - JPA WordPress REST API からイベント・大会情報を取得し data.ts に書き出す
+- **カテゴリ**: tournament（大会）、experience（体験会・交流会）、workshop（イベント）、certification（資格講習会）
+- **更新頻度**: 週1回（`/fetch-events` スキルで手動実行）
+- **コスト**: 無料（REST API）
+
 ## Gemini API（コンテンツ自動生成）
 
 - **APIキー**: 環境変数 `GEMINI_API_KEY`（`.env.local` に設定済み）
@@ -130,6 +141,7 @@ public/                 # 静的ファイル
   - `/generate-video-script` — ショート動画台本の生成
   - `/generate-short` — 記事→ショート動画の一括生成パイプライン
   - `/import-articles` — microCMSへの記事一括入稿
+  - `/fetch-events` — JPA イベントデータの取得・更新
   - `/weekly-review` — 週次レビュー・AIチームMTG
 - **運用ルール**:
   - 繰り返し発生する作業は必ずスキルとして定義すること

@@ -111,6 +111,30 @@ const articles = [
       "2026年1月に開始されたJPA公式ランキング制度を徹底解説。ポイント計算、カテゴリ分類、DUPRとの違い。",
     file: "010_JPAランキングの仕組み.md",
   },
+  {
+    slug: "youtube-channels",
+    title: "ピックルボール おすすめYouTubeチャンネル12選｜日本語＆英語",
+    category: "beginner",
+    description:
+      "船水雄太、青春ピックルちゃんねる、Selkirk TVなど日本語・英語の厳選チャンネルを紹介。動画で効率的に上達。",
+    file: "011_ピックルボールYouTubeチャンネル.md",
+  },
+  {
+    slug: "paddle-shop-guide",
+    title: "ピックルボール パドルが買えるお店まとめ｜専門ショップ＆大手通販",
+    category: "gear",
+    description:
+      "SANNO SPORTS、Pickle-One、ウインザーなど国内のパドル購入先を網羅。試打可否・価格帯・特徴を比較。",
+    file: "012_パドルショップガイド.md",
+  },
+  {
+    slug: "funamizu-pickleball",
+    title: "船水雄太のピックルボール挑戦｜ソフトテニス界のスターからMLP指名へ",
+    category: "tips",
+    description:
+      "ソフトテニス全日本王者からピックルボールに転向。MLP日本人初ドラフト指名の快挙と戦績を徹底解説。",
+    file: "013_船水雄太ピックルボール.md",
+  },
 ];
 
 async function createArticle(article, index) {
@@ -141,10 +165,10 @@ async function createArticle(article, index) {
 
   if (res.ok) {
     const data = await res.json();
-    console.log(`✅ [${index + 1}/10] ${article.title} (id: ${data.id})`);
+    console.log(`✅ [${index + 1}/${articles.length}] ${article.title} (id: ${data.id})`);
   } else {
     const text = await res.text();
-    console.error(`❌ [${index + 1}/10] ${article.title}`);
+    console.error(`❌ [${index + 1}/${articles.length}] ${article.title}`);
     console.error(`   Status: ${res.status} ${res.statusText}`);
     console.error(`   ${text}`);
   }

@@ -7,6 +7,7 @@ import { Footer } from "@/components/layouts/footer";
 import { WebsiteJsonLd } from "@/components/features/seo/json-ld";
 import { getArticleList } from "@/lib/microcms/queries";
 import { getTopRankingsPreview, getUniquePlayerCount } from "@/lib/ranking/data";
+import { getUpcomingEvents, EVENT_CATEGORY_LABELS } from "@/lib/events/data";
 import type { Article } from "@/types";
 
 export const revalidate = 3600;
@@ -51,29 +52,14 @@ function formatDate(dateString: string): string {
   });
 }
 
-const mockEvents = [
-  {
-    id: "1",
-    title: "東京オープン 2026 春",
-    date: "2026-04-15",
-    location: "東京都江東区",
-    level: "中級〜上級",
-  },
-  {
-    id: "2",
-    title: "初心者歓迎！大阪ピックルボール体験会",
-    date: "2026-03-20",
-    location: "大阪府大阪市",
-    level: "初心者",
-  },
-  {
-    id: "3",
-    title: "名古屋ミックスダブルス大会",
-    date: "2026-04-05",
-    location: "愛知県名古屋市",
-    level: "中級",
-  },
-];
+function formatEventDate(dateString: string | null): string {
+  if (!dateString) return "日程未定";
+  return new Date(dateString).toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
 
 export default async function HomePage() {
   let articles: Pick<Article, "id" | "title" | "slug" | "category" | "publishedAt">[];
@@ -85,6 +71,7 @@ export default async function HomePage() {
   }
 
   const playerCount = getUniquePlayerCount();
+  const upcomingEvents = getUpcomingEvents(3);
 
   return (
     <>
@@ -234,11 +221,16 @@ export default async function HomePage() {
               </Button>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-              {mockEvents.map((event) => (
+              {upcomingEvents.map((event) => (
                 <Card key={event.id} className="transition-colors hover:bg-muted/50">
                   <CardHeader>
-                    <div className="mb-2">
-                      <Badge variant="outline">{event.level}</Badge>
+                    <div className="mb-2 flex flex-wrap gap-1">
+                      <Badge variant="outline">
+                        {EVENT_CATEGORY_LABELS[event.category]}
+                      </Badge>
+                      {event.prefecture && (
+                        <Badge variant="secondary">{event.prefecture}</Badge>
+                      )}
                     </div>
                     <CardTitle className="text-base sm:text-lg">
                       <Link
@@ -251,7 +243,8 @@ export default async function HomePage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-xs text-muted-foreground sm:text-sm">
-                      {event.date} / {event.location}
+                      {formatEventDate(event.eventDate)}
+                      {event.location ? ` / ${event.location}` : ""}
                     </p>
                   </CardContent>
                 </Card>

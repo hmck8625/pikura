@@ -103,6 +103,35 @@ const productsBySlug: Record<string, Product[]> = {
       store: "amazon",
     },
   ],
+  "paddle-shop-guide": [
+    {
+      name: "JOOLA Ben Johns Hyperion CFS 16",
+      description:
+        "世界ランキング1位Ben Johns使用モデル。カーボンフェイス搭載でスピン性能抜群。中〜上級者向け。",
+      price: "¥29,800",
+      affiliateUrl: amazonUrl("B0CXXXXXX1"),
+      store: "amazon",
+      badge: "人気No.1",
+    },
+    {
+      name: "Franklin Ben Johns Signature",
+      description:
+        "コスパ最強の入門パドル。13mmコア厚でコントロール重視。初心者〜中級者におすすめ。",
+      price: "¥8,980",
+      affiliateUrl: amazonUrl("B0CXXXXXX3"),
+      store: "amazon",
+      badge: "初心者向け",
+    },
+    {
+      name: "ヨネックス VCORE PB",
+      description:
+        "テニスラケットの技術をピックルボールに応用。日本メーカーならではの品質と操作性。",
+      price: "¥19,800",
+      affiliateUrl: amazonUrl("B0CXXXXXXB"),
+      store: "amazon",
+      badge: "国産",
+    },
+  ],
 };
 
 export function getProductsForArticle(slug: string): Product[] {
@@ -115,6 +144,7 @@ export function getProductSectionTitle(slug: string): string {
     "shoes-guide": "おすすめシューズ",
     "how-to-start-pickleball": "入門に必要な道具",
     "court-size-setup": "コート設営に必要なアイテム",
+    "paddle-shop-guide": "おすすめパドル",
   };
   return titles[slug] ?? "おすすめアイテム";
 }
