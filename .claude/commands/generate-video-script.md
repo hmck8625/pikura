@@ -32,9 +32,15 @@ source .env.local && GEMINI_API_KEY=$GEMINI_API_KEY node scripts/generate-video-
 
 ## 制作フロー
 
-台本生成（Gemini無料） → 画像生成（Gemini有料¥3-6/枚） → VOICEVOX（無料） → CapCut（無料） → アップロード
+### 自動パイプライン（推奨）
+台本生成 → フレーム画像生成 → Google Cloud TTS → FFmpeg動画組み立て → MP4出力
+
+`/generate-short` スキル（`scripts/article-to-short.mjs`）で一括自動化可能。
+
+### 手動パイプライン（カスタム編集が必要な場合）
+台本生成（本スクリプト） → 画像生成（generate-short-frames.mjs） → 動画組み立て（generate-short-video.mjs）
 
 ## コスト
 
 - 台本生成: **無料枠**（1リクエスト/回）
-- 動画1本あたり画像3-5枚: 約¥9-30
+- 自動パイプラインで動画1本: 約¥27-54（フレーム画像9枚分）

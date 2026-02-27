@@ -1,6 +1,6 @@
 # ツイート候補生成
 
-pikura.app の X（Twitter）アカウント @pikura_app 用のツイート候補を5カテゴリ分生成します。
+pikura.app の X（Twitter）アカウント @pikura_pickle 用のツイート候補を5カテゴリ分生成します。
 
 ## 手順
 
