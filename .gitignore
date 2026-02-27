@@ -40,6 +40,9 @@ yarn-error.log*
 .youtube-client-secret.json
 .youtube-token.json
 
+# Google Analytics tokens (GSC + YouTube Analytics)
+.google-analytics-token.json
+
 # vercel
 .vercel
 

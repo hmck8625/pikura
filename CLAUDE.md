@@ -169,6 +169,8 @@ public/                 # 静的ファイル
   - `/register-base-products` — BASE APIで商品一括登録・画像アップロード
   - `/add-product` — 新商品追加ワークフロー（データ追加→画像生成→デプロイ→BASE登録）
   - `/upload-youtube` — YouTube Shortsのアップロード
+  - `/analyze-gsc` — Google Search Console分析レポート生成
+  - `/analyze-youtube` — YouTube Analyticsレポート生成
 - **運用ルール**:
   - 繰り返し発生する作業は必ずスキルとして定義すること
   - スキルの中身は週次レビュー時に確認し、データや手順が古くなっていれば更新する
