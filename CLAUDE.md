@@ -140,6 +140,19 @@ public/                 # 静的ファイル
 - **TTS**: Google Cloud Text-to-Speech API（ja-JP-Neural2-B、月100万文字無料）
 - **動画生成**: FFmpeg必須（`sudo apt install ffmpeg`）
 
+## YouTube Data API（Shorts アップロード）
+
+- **APIキー**: OAuth2（`.youtube-client-secret.json` + `.youtube-token.json`）
+- **スコープ**: `youtube.upload`
+- **クォータ**: 1アップロード ≈ 1,600 units / 日次上限 10,000 units（最大6本/日）
+- **認証スクリプト**: `scripts/youtube-auth.mjs`（初回のみ。ブラウザでOAuth認証→トークン保存）
+- **アップロードスクリプト**: `scripts/youtube-upload.mjs`
+  - 使い方: `node scripts/youtube-upload.mjs <slug>` / `--all` / `--dry-run`
+  - デフォルト公開設定: `unlisted`（未検証プロジェクトは public が制限されるため）
+  - メタデータ: `public/videos/youtube-metadata.md` から自動パース
+- **動画ファイル**: `public/videos/` に MP4 格納済み（Shorts用 1080x1920）
+- **セットアップ**: Google Cloud Console → YouTube Data API v3 有効化 → OAuth クライアントID（デスクトップアプリ）→ JSON を `.youtube-client-secret.json` に配置
+
 ## スキル（繰り返し作業の定義）
 
 - **スキル定義**: `.claude/commands/` ディレクトリにMarkdownファイルで定義
@@ -153,6 +166,8 @@ public/                 # 静的ファイル
   - `/add-event` — 手動イベント追加（テニスベア・PJF等の公開情報をmanual-events.jsonに登録）
   - `/update-sitemap` — サイトマップの確認・更新
   - `/weekly-review` — 週次レビュー・AIチームMTG
+  - `/register-base-products` — BASE APIで商品一括登録・画像アップロード
+  - `/upload-youtube` — YouTube Shortsのアップロード
 - **運用ルール**:
   - 繰り返し発生する作業は必ずスキルとして定義すること
   - スキルの中身は週次レビュー時に確認し、データや手順が古くなっていれば更新する
@@ -167,6 +182,8 @@ public/                 # 静的ファイル
 - **POD**: **UP-T**（印刷・発送）— BASE連携で受注生産
 - **画像生成**: `scripts/generate-tshirt-designs.mjs`（Gemini API / Nano Banana でモックアップ生成）
 - **画像パス**: `public/images/shop/{slug}.png`
+- **BASE API連携**: `scripts/base-api.mjs`（OAuth2認証 → 商品登録 → 画像アップロード）
+- **BASE API設定**: `.env.local` に `BASE_CLIENT_ID`, `BASE_CLIENT_SECRET` を設定。redirect_uri: `http://localhost:3456/callback`
 - **方針**: EC機能は自前で作らない。商品ページでSEOを獲得し、購入導線はBASEに委譲
 
 ## 運用ルール

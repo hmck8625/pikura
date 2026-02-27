@@ -23,7 +23,7 @@ const PROJECT_ROOT = join(__dirname, "..");
 const OUTPUT_DIR = join(PROJECT_ROOT, "public", "images", "shop");
 
 const API_KEY = process.env.GEMINI_API_KEY;
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${API_KEY}`;
 
 const DELAY_MS = 3000;
 
@@ -186,21 +186,22 @@ async function generateMockup(slug) {
     ? `The design text on the shirt reads: "${design.text}".`
     : "This is a graphic-only design with no text.";
 
-  const prompt = `Generate a product mockup photograph of a white dry-fit athletic T-shirt laid flat on a clean, light gray background. The T-shirt has a printed design on the front.
+  const prompt = `Generate a realistic e-commerce product photo of a sporty dry-fit T-shirt with a design printed on the chest area. Show the actual T-shirt as a real product — either neatly folded, laid flat, or displayed on an invisible mannequin — so the customer can clearly see what the shirt looks like as a real product they would buy.
 
 ${textPart}
 
 Design style: ${design.style}
 
 Requirements:
-- Photorealistic flat-lay product photography style
-- The T-shirt should be the main focus, centered in frame
-- Clean, professional e-commerce product photo aesthetic
-- The design/text should be clearly visible and readable on the shirt
-- Soft, even lighting with minimal shadows
+- Show a REAL T-shirt product photo, not just artwork. The shirt fabric, seams, collar, and sleeves should be visible
+- The printed design should be clearly visible on the chest area of the shirt
+- Professional e-commerce product photography (like Uniqlo, Nike, or Amazon product listing)
+- White or light-colored athletic dry-fit T-shirt material with slight fabric texture
+- Clean white or very light gray background
+- Soft studio lighting, minimal shadows
 - 1:1 square aspect ratio
-- High quality, sharp details
-- No watermarks or extra text outside the shirt`;
+- High resolution, sharp focus on the shirt and design
+- No human model, no watermarks, no extra text outside the shirt`;
 
   console.log(`  Requesting Gemini API...`);
 
