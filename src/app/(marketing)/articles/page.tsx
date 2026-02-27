@@ -138,6 +138,7 @@ const categoryLabels: Record<string, string> = {
   gear: "ギア",
   events: "大会",
   tips: "戦術",
+  players: "選手",
 };
 
 const categoryIconLabels: Record<string, string> = {
@@ -146,6 +147,7 @@ const categoryIconLabels: Record<string, string> = {
   gear: "ギ",
   events: "大",
   tips: "戦",
+  players: "選",
 };
 
 function formatDate(dateString: string): string {

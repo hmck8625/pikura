@@ -51,6 +51,7 @@ const categoryLabels: Record<string, string> = {
   gear: "ギア",
   events: "大会",
   tips: "戦術",
+  players: "選手",
 };
 
 function formatDate(dateString: string): string {

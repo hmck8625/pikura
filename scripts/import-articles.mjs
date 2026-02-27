@@ -1,10 +1,10 @@
 /**
- * microCMS 記事一括入稿スクリプト
+ * microCMS 記事一括入稿・更新スクリプト
  *
  * 使い方:
- *   1. microCMS管理画面 → API設定 → APIキー → 「POST/PUT/PATCH/DELETE」用キーをコピー
- *   2. 以下を実行:
- *      MICROCMS_WRITE_KEY=xxxx node scripts/import-articles.mjs
+ *   MICROCMS_WRITE_KEY=xxxx node scripts/import-articles.mjs          # 新規作成
+ *   MICROCMS_WRITE_KEY=xxxx node scripts/import-articles.mjs --update  # 既存記事を更新
+ *   MICROCMS_WRITE_KEY=xxxx node scripts/import-articles.mjs --slug funamizu-pickleball  # 単一記事のみ
  */
 
 import { readFileSync } from "fs";
@@ -19,15 +19,18 @@ const SERVICE_DOMAIN = "pikura";
 const WRITE_KEY = process.env.MICROCMS_WRITE_KEY;
 
 if (!WRITE_KEY) {
-  console.error("❌ MICROCMS_WRITE_KEY が未設定です");
+  console.error("MICROCMS_WRITE_KEY が未設定です");
   console.error("");
   console.error("使い方:");
   console.error("  MICROCMS_WRITE_KEY=xxxxx node scripts/import-articles.mjs");
-  console.error("");
-  console.error("キーの取得方法:");
-  console.error("  microCMS管理画面 → 左メニュー「APIキー」→「POST/PUT/PATCH/DELETE」のキーをコピー");
+  console.error("  MICROCMS_WRITE_KEY=xxxxx node scripts/import-articles.mjs --update");
+  console.error("  MICROCMS_WRITE_KEY=xxxxx node scripts/import-articles.mjs --slug funamizu-pickleball");
   process.exit(1);
 }
+
+const isUpdate = process.argv.includes("--update");
+const slugIndex = process.argv.indexOf("--slug");
+const targetSlug = slugIndex !== -1 ? process.argv[slugIndex + 1] : null;
 
 // 記事データ（slug, title, category, description, ファイルパス）
 const articles = [
@@ -130,15 +133,31 @@ const articles = [
   {
     slug: "funamizu-pickleball",
     title: "船水雄太のピックルボール挑戦｜ソフトテニス界のスターからMLP指名へ",
-    category: "tips",
+    category: "players",
     description:
       "ソフトテニス全日本王者からピックルボールに転向。MLP日本人初ドラフト指名の快挙と戦績を徹底解説。",
     file: "013_船水雄太ピックルボール.md",
   },
 ];
 
-async function createArticle(article, index) {
-  // Markdownファイルを読み込み → HTML変換
+/**
+ * slugで既存記事のcontentIdを検索
+ */
+async function findArticleBySlug(slug) {
+  const url = `https://${SERVICE_DOMAIN}.microcms.io/api/v1/articles?filters=slug[equals]${slug}&fields=id,slug&limit=1`;
+  const res = await fetch(url, {
+    headers: { "X-MICROCMS-API-KEY": WRITE_KEY },
+  });
+
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.contents.length > 0 ? data.contents[0].id : null;
+}
+
+/**
+ * 記事を作成または更新
+ */
+async function upsertArticle(article, index, total) {
   const mdPath = resolve(ARTICLES_DIR, article.file);
   const markdown = readFileSync(mdPath, "utf-8");
   const html = await marked(markdown);
@@ -151,42 +170,67 @@ async function createArticle(article, index) {
     content: html,
   };
 
-  const res = await fetch(
-    `https://${SERVICE_DOMAIN}.microcms.io/api/v1/articles`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-MICROCMS-API-KEY": WRITE_KEY,
-      },
-      body: JSON.stringify(body),
-    }
-  );
+  let method = "POST";
+  let url = `https://${SERVICE_DOMAIN}.microcms.io/api/v1/articles`;
+  let existingId = null;
 
+  if (isUpdate) {
+    existingId = await findArticleBySlug(article.slug);
+    if (existingId) {
+      method = "PATCH";
+      url = `${url}/${existingId}`;
+    }
+  }
+
+  const res = await fetch(url, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      "X-MICROCMS-API-KEY": WRITE_KEY,
+    },
+    body: JSON.stringify(body),
+  });
+
+  const label = `[${index + 1}/${total}]`;
   if (res.ok) {
     const data = await res.json();
-    console.log(`✅ [${index + 1}/${articles.length}] ${article.title} (id: ${data.id})`);
+    const action = method === "PATCH" ? "更新" : "作成";
+    console.log(`  ${label} ${action}: ${article.title} (id: ${data.id})`);
   } else {
     const text = await res.text();
-    console.error(`❌ [${index + 1}/${articles.length}] ${article.title}`);
+    console.error(`  ${label} 失敗: ${article.title}`);
     console.error(`   Status: ${res.status} ${res.statusText}`);
     console.error(`   ${text}`);
   }
 }
 
-console.log("📝 microCMS 記事一括入稿を開始します...");
-console.log(`   サービス: ${SERVICE_DOMAIN}`);
-console.log(`   記事数: ${articles.length}`);
+// --- メイン処理 ---
+
+const targets = targetSlug
+  ? articles.filter((a) => a.slug === targetSlug)
+  : articles;
+
+if (targets.length === 0) {
+  console.error(`slug "${targetSlug}" が見つかりません。`);
+  console.error("有効なスラッグ:");
+  for (const a of articles) {
+    console.error(`  - ${a.slug}`);
+  }
+  process.exit(1);
+}
+
+console.log("microCMS 記事入稿");
+console.log(`  サービス: ${SERVICE_DOMAIN}`);
+console.log(`  モード: ${isUpdate ? "更新（既存記事をPATCH）" : "新規作成（POST）"}`);
+console.log(`  記事数: ${targets.length}`);
 console.log("");
 
-for (let i = 0; i < articles.length; i++) {
-  await createArticle(articles[i], i);
-  // レート制限回避のため少し待つ
-  if (i < articles.length - 1) {
+for (let i = 0; i < targets.length; i++) {
+  await upsertArticle(targets[i], i, targets.length);
+  if (i < targets.length - 1) {
     await new Promise((r) => setTimeout(r, 1000));
   }
 }
 
 console.log("");
-console.log("🎉 完了！microCMS管理画面で確認してください。");
-console.log("   https://pikura.microcms.io");
+console.log("完了: https://pikura.microcms.io");

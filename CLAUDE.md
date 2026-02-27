@@ -82,7 +82,7 @@ public/                 # 静的ファイル
 - **サービスドメイン**: pikura（https://pikura.microcms.io）
 - **API**: `articles`（リスト形式）
 - **フィールド**: title, slug, description, content（リッチエディタ）, category, thumbnail
-- **カテゴリ値**: `beginner`, `rules`, `gear`, `events`, `tips`
+- **カテゴリ値**: `beginner`, `rules`, `gear`, `events`, `tips`, `players`
 - **一括入稿スクリプト**: `scripts/import-articles.mjs`
   - 使い方: `MICROCMS_WRITE_KEY=xxx node scripts/import-articles.mjs`
   - 記事下書きは `/articles/` ディレクトリ（プロジェクトルートの親）にMarkdownで保管
@@ -142,6 +142,7 @@ public/                 # 静的ファイル
   - `/generate-short` — 記事→ショート動画の一括生成パイプライン
   - `/import-articles` — microCMSへの記事一括入稿
   - `/fetch-events` — JPA イベントデータの取得・更新
+  - `/update-sitemap` — サイトマップの確認・更新
   - `/weekly-review` — 週次レビュー・AIチームMTG
 - **運用ルール**:
   - 繰り返し発生する作業は必ずスキルとして定義すること
