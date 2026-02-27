@@ -62,6 +62,13 @@ function formatDate(dateString: string): string {
   });
 }
 
+function addTargetBlankToExternalLinks(html: string): string {
+  return html.replace(
+    /<a\s+(href="https?:\/\/[^"]*")/g,
+    '<a target="_blank" rel="noopener noreferrer" $1'
+  );
+}
+
 export async function generateStaticParams() {
   try {
     const slugs = await getAllArticleSlugs();
@@ -158,7 +165,7 @@ export default async function ArticleDetailPage({ params }: Props) {
       <Separator className="mb-8" />
       <div
         className="prose max-w-none prose-headings:font-bold prose-a:text-primary prose-img:rounded-lg"
-        dangerouslySetInnerHTML={{ __html: article.content }}
+        dangerouslySetInnerHTML={{ __html: addTargetBlankToExternalLinks(article.content) }}
       />
 
       {/* 内部リンク: ランキングへの導線 */}
