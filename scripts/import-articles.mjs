@@ -141,17 +141,23 @@ const articles = [
 ];
 
 /**
- * slugで既存記事のcontentIdを検索
+ * slugで既存記事のcontentIdを検索（複数ヒット時は最新を返す）
  */
 async function findArticleBySlug(slug) {
-  const url = `https://${SERVICE_DOMAIN}.microcms.io/api/v1/articles?filters=slug[equals]${slug}&fields=id,slug&limit=1`;
+  const url = `https://${SERVICE_DOMAIN}.microcms.io/api/v1/articles?filters=slug[equals]${slug}&fields=id,slug,createdAt&limit=10&orders=-createdAt`;
   const res = await fetch(url, {
     headers: { "X-MICROCMS-API-KEY": WRITE_KEY },
   });
 
   if (!res.ok) return null;
   const data = await res.json();
-  return data.contents.length > 0 ? data.contents[0].id : null;
+  if (data.contents.length === 0) return null;
+
+  if (data.contents.length > 1) {
+    console.warn(`    注意: slug "${slug}" に ${data.contents.length} 件の記事が存在します（最新を更新します）`);
+  }
+
+  return data.contents[0].id;
 }
 
 /**
@@ -172,14 +178,14 @@ async function upsertArticle(article, index, total) {
 
   let method = "POST";
   let url = `https://${SERVICE_DOMAIN}.microcms.io/api/v1/articles`;
-  let existingId = null;
 
-  if (isUpdate) {
-    existingId = await findArticleBySlug(article.slug);
-    if (existingId) {
-      method = "PATCH";
-      url = `${url}/${existingId}`;
-    }
+  // 常に既存記事を確認して重複作成を防止する
+  const existingId = await findArticleBySlug(article.slug);
+  if (existingId) {
+    method = "PATCH";
+    url = `${url}/${existingId}`;
+  } else if (isUpdate) {
+    console.log(`    slug "${article.slug}" は新規記事です（POSTで作成）`);
   }
 
   const res = await fetch(url, {

@@ -105,14 +105,22 @@ public/                 # 静的ファイル
 
 ## イベントデータ
 
-- **データソース**: JPA公式サイト WordPress REST API（https://japanpickleball.org）
+- **データソース（マルチソース）**:
+  - JPA公式サイト WordPress REST API（https://japanpickleball.org）— 自動取得
+  - テニスベア・PJF・その他 — 手動キュレーション（`scripts/manual-events.json`）
+- **型定義**: `lib/events/types.ts`（`PickleballEvent` 統一型）
 - **実装**: `lib/events/data.ts` に静的TypeScriptデータとして格納（自動生成ファイル）
-- **取得スクリプト**: `scripts/fetch-jpa-events.mjs`
-  - 使い方: `node scripts/fetch-jpa-events.mjs`
-  - JPA WordPress REST API からイベント・大会情報を取得し data.ts に書き出す
+- **取得スクリプト**: `scripts/fetch-all-events.mjs`
+  - 使い方: `node scripts/fetch-all-events.mjs`
+  - JPA API自動取得 + 手動イベントJSON → マージ・重複排除 → data.ts に書き出し
+- **手動イベント登録**: `scripts/manual-events.json`（`/add-event` スキルで追加）
 - **カテゴリ**: tournament（大会）、experience（体験会・交流会）、workshop（イベント）、certification（資格講習会）
+- **拡張フィールド**: level（レベル）、duprReflected（DUPR反映）、entryFee（参加費）、format（形式）、registrationStatus（募集状況）、latitude/longitude（地図座標）
+- **フィルター**: カテゴリ、レベル、都道府県、日付範囲、DUPR、形式、ソース、テキスト検索
+- **地図表示**: Leaflet + OpenStreetMap（無料）。都道府県座標フォールバック: `lib/events/prefecture-coordinates.ts`
+- **ビュー**: リスト表示 / マップ表示の切替
 - **更新頻度**: 週1回（`/fetch-events` スキルで手動実行）
-- **コスト**: 無料（REST API）
+- **コスト**: 無料（REST API + OpenStreetMap）
 
 ## Gemini API（コンテンツ自動生成）
 
@@ -141,7 +149,8 @@ public/                 # 静的ファイル
   - `/generate-video-script` — ショート動画台本の生成
   - `/generate-short` — 記事→ショート動画の一括生成パイプライン
   - `/import-articles` — microCMSへの記事一括入稿
-  - `/fetch-events` — JPA イベントデータの取得・更新
+  - `/fetch-events` — イベントデータの統合取得・更新（JPA API + 手動キュレーション）
+  - `/add-event` — 手動イベント追加（テニスベア・PJF等の公開情報をmanual-events.jsonに登録）
   - `/update-sitemap` — サイトマップの確認・更新
   - `/weekly-review` — 週次レビュー・AIチームMTG
 - **運用ルール**:

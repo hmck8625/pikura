@@ -7,7 +7,8 @@ import { Footer } from "@/components/layouts/footer";
 import { WebsiteJsonLd } from "@/components/features/seo/json-ld";
 import { getArticleList } from "@/lib/microcms/queries";
 import { getTopRankingsPreview, getUniquePlayerCount } from "@/lib/ranking/data";
-import { getUpcomingEvents, EVENT_CATEGORY_LABELS } from "@/lib/events/data";
+import { getUpcomingEvents } from "@/lib/events/data";
+import { EVENT_CATEGORY_LABELS, EVENT_SOURCE_LABELS, EVENT_LEVEL_LABELS } from "@/lib/events/types";
 import type { Article } from "@/types";
 
 export const revalidate = 3600;
@@ -226,11 +227,19 @@ export default async function HomePage() {
                 <Card key={event.id} className="transition-colors hover:bg-muted/50">
                   <CardHeader>
                     <div className="mb-2 flex flex-wrap gap-1">
+                      <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
+                        {EVENT_SOURCE_LABELS[event.source]}
+                      </span>
                       <Badge variant="outline">
                         {EVENT_CATEGORY_LABELS[event.category]}
                       </Badge>
                       {event.prefecture && (
                         <Badge variant="secondary">{event.prefecture}</Badge>
+                      )}
+                      {event.level !== "unknown" && (
+                        <Badge variant="secondary">
+                          {EVENT_LEVEL_LABELS[event.level]}
+                        </Badge>
                       )}
                     </div>
                     <CardTitle className="text-base sm:text-lg">

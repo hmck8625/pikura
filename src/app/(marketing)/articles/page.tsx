@@ -185,13 +185,17 @@ export default async function ArticlesPage({ searchParams }: Props) {
   let articles: Article[];
 
   try {
-    const response = await getArticleList({ limit: 20 });
+    const response = await getArticleList({
+      limit: 20,
+      category: selectedCategory === "all" ? undefined : selectedCategory,
+    });
     articles = response.contents.length > 0 ? response.contents : fallbackArticles;
   } catch {
     articles = fallbackArticles;
   }
 
-  const filteredArticles = selectedCategory === "all"
+  // API側でフィルタ済み。fallback使用時のみJSフィルタ
+  const filteredArticles = selectedCategory === "all" || articles !== fallbackArticles
     ? articles
     : articles.filter((a) => a.category === selectedCategory);
 
