@@ -316,24 +316,24 @@ function generateSceneClip(scene, index, fontPath, actualDuration, hasAudio) {
   exec(videoCmd);
 
   if (hasAudio && existsSync(audioPath)) {
-    // 音声とマージ（-shortest を使わず、映像尺に合わせる）
+    // TTS音声（24kHz mono）を 44100Hz stereo に統一してマージ
     const audioCmd = [
       "ffmpeg -y",
       `-i "${sceneVideoPath}"`,
       `-i "${audioPath}"`,
-      "-c:v copy -c:a aac -b:a 128k",
+      "-c:v copy -c:a aac -b:a 128k -ar 44100 -ac 2",
       `-t ${actualDuration}`,
       `"${sceneAudioPath}"`,
     ].join(" ");
 
     exec(audioCmd);
   } else {
-    // 無音トラック追加
+    // 無音トラック（44100Hz stereo で統一）
     const silentCmd = [
       "ffmpeg -y",
       `-i "${sceneVideoPath}"`,
       `-f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100`,
-      "-c:v copy -c:a aac -b:a 128k",
+      "-c:v copy -c:a aac -b:a 128k -ar 44100 -ac 2",
       `-t ${actualDuration}`,
       `"${sceneAudioPath}"`,
     ].join(" ");

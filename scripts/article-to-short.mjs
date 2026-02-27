@@ -444,14 +444,14 @@ async function generateVideo(scenes, imageDir, outputPath, apiKey) {
       `ffmpeg -y -loop 1 -i "${imagePath}" -t ${actualDuration} -vf "${vf}" -c:v libx264 -pix_fmt yuv420p -r 30 "${sceneVideoPath}"`
     );
 
-    // 音声マージ or 無音追加
+    // 音声マージ or 無音追加（全て 44100Hz stereo AAC に統一）
     if (hasAudio) {
       exec(
-        `ffmpeg -y -i "${sceneVideoPath}" -i "${audioPath}" -c:v copy -c:a aac -b:a 128k -t ${actualDuration} "${sceneAudioPath}"`
+        `ffmpeg -y -i "${sceneVideoPath}" -i "${audioPath}" -c:v copy -c:a aac -b:a 128k -ar 44100 -ac 2 -t ${actualDuration} "${sceneAudioPath}"`
       );
     } else {
       exec(
-        `ffmpeg -y -i "${sceneVideoPath}" -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -c:v copy -c:a aac -b:a 128k -t ${actualDuration} "${sceneAudioPath}"`
+        `ffmpeg -y -i "${sceneVideoPath}" -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -c:v copy -c:a aac -b:a 128k -ar 44100 -ac 2 -t ${actualDuration} "${sceneAudioPath}"`
       );
     }
     console.log(`    -> OK`);
