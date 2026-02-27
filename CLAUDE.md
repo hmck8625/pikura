@@ -158,6 +158,22 @@ public/                 # 静的ファイル
   - スキルの中身は週次レビュー時に確認し、データや手順が古くなっていれば更新する
   - 新しい定期作業が発生したら即座にスキルファイルを作成する
 
+## ショップ / EC
+
+- **商品データ**: `lib/shop/data.ts` に静的TypeScriptデータとして格納（25商品）
+- **型定義**: `lib/shop/types.ts`（`Product` 型、`ProductCategory` 5種）
+- **ページ**: `/shop`（一覧）、`/shop/[slug]`（商品詳細）
+- **EC基盤**: **BASE**（外部サービス）— pikura.appは商品ギャラリーのみ。購入はBASEショップへリンク
+- **POD**: **UP-T**（印刷・発送）— BASE連携で受注生産
+- **画像生成**: `scripts/generate-tshirt-designs.mjs`（Gemini API / Nano Banana でモックアップ生成）
+- **画像パス**: `public/images/shop/{slug}.png`
+- **方針**: EC機能は自前で作らない。商品ページでSEOを獲得し、購入導線はBASEに委譲
+
+## 運用ルール
+
+- **作業は日報に記載する**（新規作成 or 追記）。日報は `week{N}/` ディレクトリに `YYYY-MM-DD_日報.md` の命名規則で保存
+- **幹部MTG議事録**は `week{N}/` に保存。命名規則: `YYYY-MM-DD_幹部MTG_{テーマ}.md`
+
 ## やってはいけないこと
 
 - **RLS を無効にする** (セキュリティ上、絶対に許容しない)

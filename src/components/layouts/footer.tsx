@@ -9,6 +9,7 @@ const footerLinks = [
       { label: "記事", href: "/articles" },
       { label: "ランキング", href: "/rankings" },
       { label: "イベント", href: "/events" },
+      { label: "ショップ", href: "/shop" },
       { label: "ペア募集", href: "/pairs" },
     ],
   },

@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllArticleSlugs } from "@/lib/microcms/queries";
 import { getAllPlayerSlugs } from "@/lib/ranking/data";
 import { getAllEventIds } from "@/lib/events/data";
+import { getAllProductSlugs } from "@/lib/shop/data";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -38,6 +39,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
+  // ショップ商品ページ
+  const productEntries: MetadataRoute.Sitemap = getAllProductSlugs().map(
+    (slug) => ({
+      url: `${BASE_URL}/shop/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }),
+  );
+
   return [
     {
       url: BASE_URL,
@@ -72,6 +83,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...articleEntries,
     ...playerEntries,
     ...eventEntries,
+    {
+      url: `${BASE_URL}/shop`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    ...productEntries,
     {
       url: `${BASE_URL}/terms`,
       lastModified: new Date(),
