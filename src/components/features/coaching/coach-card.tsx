@@ -85,7 +85,7 @@ export function CoachCard({ coach }: { coach: CoachProfile }) {
         <div className="flex items-center gap-2">
           <p className="font-medium text-foreground">{coach.priceRange}</p>
           <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-            ピクラ経由5%OFF
+            ピクラ経由5%OFF(上限¥2,000)
           </span>
         </div>
         {coach.achievements.length > 0 && (

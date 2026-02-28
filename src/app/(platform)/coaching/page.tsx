@@ -26,7 +26,7 @@ export default function CoachingPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold">コーチングマッチング</h1>
         <p className="mt-2 text-muted-foreground">
-          プロ選手・経験豊富なコーチからピックルボールを直接学べます。掲載無料・手数料ゼロ。ピクラ経由のお申し込みでレッスン料5%割引。
+          プロ選手・経験豊富なコーチからピックルボールを直接学べます。掲載無料・手数料ゼロ。ピクラ経由のお申し込みでレッスン料5%OFF（上限2,000円）。
         </p>
       </div>
       <CoachingPageClient coaches={coaches} areas={areas} />

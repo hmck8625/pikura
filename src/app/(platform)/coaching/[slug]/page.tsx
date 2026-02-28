@@ -180,7 +180,7 @@ export default async function CoachDetailPage({ params }: Props) {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                コーチングの詳細・日程・料金については、下記から直接コーチにお問い合わせください。お問い合わせ時に「ピクラを見ました」とお伝えいただくと、レッスン料が5%OFFになります。
+                コーチングの詳細・日程・料金については、下記から直接コーチにお問い合わせください。お問い合わせ時に「ピクラを見ました」とお伝えいただくと、レッスン料が5%OFF（上限2,000円）になります。
               </p>
               <Button asChild>
                 <a
@@ -192,7 +192,7 @@ export default async function CoachDetailPage({ params }: Props) {
                 </a>
               </Button>
               <p className="text-xs text-muted-foreground">
-                ※ コーチングの契約・決済はコーチと受講者の間で直接行ってください。5%割引分はピクラがコーチに還元しますので、コーチの収入は変わりません。
+                ※ コーチングの契約・決済はコーチと受講者の間で直接行ってください。5%割引分（上限2,000円）はピクラがコーチに還元しますので、コーチの収入は変わりません。個人レッスンが対象です。
               </p>
             </CardContent>
           </Card>
