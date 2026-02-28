@@ -4,8 +4,6 @@ import { Suspense } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Header } from "@/components/layouts/header";
-import { Footer } from "@/components/layouts/footer";
 import { RankingCategoryFilter } from "@/components/features/ranking/ranking-category-filter";
 import { getRankings, getUniquePlayerCount, getTotalEntries } from "@/lib/ranking/data";
 import { CATEGORY_LABELS, AGE_GROUP_LABELS } from "@/lib/ranking/types";
@@ -43,8 +41,6 @@ export default async function RankingsPage({ searchParams }: Props) {
 
   return (
     <>
-      <Header />
-      <main>
         {/* ランキングヘッダーバナー */}
         <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-emerald-500/10 py-10">
           <div className="container mx-auto px-4">
@@ -200,8 +196,6 @@ export default async function RankingsPage({ searchParams }: Props) {
           </Link>
         </div>
         </div>
-      </main>
-      <Footer />
     </>
   );
 }
