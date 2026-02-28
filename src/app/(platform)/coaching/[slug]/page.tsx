@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -75,7 +76,14 @@ export default async function CoachDetailPage({ params }: Props) {
         <div className="md:col-span-1">
           <Card>
             <CardHeader>
-              <CardTitle className="text-xl">{coach.displayName}</CardTitle>
+              <Image
+                src={coach.photoUrl ?? "/images/brand/default-avatar.png"}
+                alt={coach.displayName}
+                width={96}
+                height={96}
+                className="h-24 w-24 rounded-full object-cover"
+              />
+              <CardTitle className="mt-4 text-xl">{coach.displayName}</CardTitle>
               <div className="mt-2 flex items-center gap-2">
                 <span
                   className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${AVAILABILITY_COLORS[coach.availability]}`}

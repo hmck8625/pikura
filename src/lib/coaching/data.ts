@@ -11,7 +11,7 @@ const COACHES: CoachProfile[] = [
   {
     slug: "sample-coach",
     displayName: "サンプル太郎",
-    photoUrl: null,
+    photoUrl: "/images/coaching/sample-coach.png",
     duprRating: 5.234,
     achievements: [
       "JPA全日本選手権 ダブルス3位",

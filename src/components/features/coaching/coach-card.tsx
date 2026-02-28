@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -41,19 +42,30 @@ export function CoachCard({ coach }: { coach: CoachProfile }) {
             </span>
           ))}
         </div>
-        <CardTitle className="text-lg leading-snug">
-          <Link
-            href={`/coaching/${coach.slug}`}
-            className="hover:underline"
-          >
-            {coach.displayName}
-          </Link>
-        </CardTitle>
-        {coach.duprRating && (
-          <p className="text-sm text-muted-foreground">
-            DUPR {coach.duprRating.toFixed(3)}
-          </p>
-        )}
+        <div className="flex items-center gap-3">
+          <Image
+            src={coach.photoUrl ?? "/images/brand/default-avatar.png"}
+            alt={coach.displayName}
+            width={56}
+            height={56}
+            className="h-14 w-14 rounded-full object-cover"
+          />
+          <div>
+            <CardTitle className="text-lg leading-snug">
+              <Link
+                href={`/coaching/${coach.slug}`}
+                className="hover:underline"
+              >
+                {coach.displayName}
+              </Link>
+            </CardTitle>
+            {coach.duprRating && (
+              <p className="text-sm text-muted-foreground">
+                DUPR {coach.duprRating.toFixed(3)}
+              </p>
+            )}
+          </div>
+        </div>
       </CardHeader>
       <CardContent className="mt-auto space-y-3 text-sm text-muted-foreground">
         <div className="flex flex-wrap gap-1.5">

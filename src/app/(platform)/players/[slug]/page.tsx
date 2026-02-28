@@ -6,8 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Header } from "@/components/layouts/header";
-import { Footer } from "@/components/layouts/footer";
 import { PlayerShareButtons } from "@/components/features/ranking/player-share-buttons";
 import { PlayerJsonLd, BreadcrumbJsonLd } from "@/components/features/seo/json-ld";
 import { getPlayerBySlug, getAllPlayerSlugs } from "@/lib/ranking/data";
@@ -73,8 +71,7 @@ export default async function PlayerPage({ params }: Props) {
           { name: player.name, url: `https://pikura.app/players/${encodeURIComponent(player.slug)}` },
         ]}
       />
-      <Header />
-      <main className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12">
         <div className="mb-6">
           <Link
             href="/rankings"
@@ -231,8 +228,7 @@ export default async function PlayerPage({ params }: Props) {
             </Card>
           </div>
         </div>
-      </main>
-      <Footer />
+      </div>
     </>
   );
 }
