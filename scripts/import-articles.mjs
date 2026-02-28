@@ -876,6 +876,22 @@ async function upsertArticle(article, index, total) {
     const data = await res.json();
     const action = method === "PATCH" ? "更新" : "作成";
     console.log(`  ${label} ${action}: ${article.title} (id: ${data.id})`);
+
+    // カテゴリ検証: microCMSスキーマに未登録のカテゴリ値は無視される
+    if (article.category) {
+      const verifyUrl = `https://${SERVICE_DOMAIN}.microcms.io/api/v1/articles/${data.id}?fields=category`;
+      const verifyRes = await fetch(verifyUrl, {
+        headers: { "X-MICROCMS-API-KEY": WRITE_KEY },
+      });
+      if (verifyRes.ok) {
+        const verifyData = await verifyRes.json();
+        const savedCategory = verifyData.category ?? [];
+        if (savedCategory.length === 0) {
+          console.warn(`    ⚠️ カテゴリ警告: "${article.slug}" の category "${article.category}" がmicroCMSに反映されていません。`);
+          console.warn(`       microCMSスキーマに "${article.category}" を追加してから fix-beginner-category.mjs を実行してください。`);
+        }
+      }
+    }
   } else {
     const text = await res.text();
     console.error(`  ${label} 失敗: ${article.title}`);
