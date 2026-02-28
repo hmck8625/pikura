@@ -69,6 +69,39 @@ function addTargetBlankToExternalLinks(html: string): string {
   );
 }
 
+/** microCMSがサニタイズで除去した<img>タグを復元する。
+ *  import時にMarkdownの ![alt](src) が <img> になるが、microCMSリッチエディタが
+ *  外部URLの<img>を除去するため、キャプション（<em>）だけ残る。
+ *  記事Markdownの画像パターン: ![alt](url) + 改行 + *caption* を元に、
+ *  slug別の画像マッピングで復元する。 */
+const articleImages: Record<string, { src: string; alt: string }[]> = {
+  "app-japan-open-2026-report": [
+    { src: "/images/articles/app-japan-open-2026-entrance.jpg", alt: "会場入口 APPの旗が並ぶ日硝ハイウエーアリーナ" },
+    { src: "/images/articles/app-japan-open-2026-arena.jpg", alt: "会場一望 青いコートが12面並ぶ巨大アリーナ" },
+    { src: "/images/articles/app-japan-open-2026-center-court.jpg", alt: "センターコート JPA・APP・SKECHERSのバナーが掲げられたメインコート" },
+    { src: "/images/articles/app-japan-open-2026-podium.jpg", alt: "表彰台とスポンサーボード" },
+  ],
+};
+
+function restoreArticleImages(html: string, slug: string): string {
+  const images = articleImages[slug];
+  if (!images || images.length === 0) return html;
+
+  let imageIndex = 0;
+  // microCMSはキャプション（<em>タグ）だけ残す。その直前に<img>を挿入する。
+  return html.replace(
+    /<p><em>([^<]+)<\/em><\/p>/g,
+    (_match, caption) => {
+      if (imageIndex < images.length) {
+        const img = images[imageIndex];
+        imageIndex++;
+        return `<figure><img src="${img.src}" alt="${img.alt}" loading="lazy" /><figcaption>${caption}</figcaption></figure>`;
+      }
+      return `<p><em>${caption}</em></p>`;
+    }
+  );
+}
+
 export async function generateStaticParams() {
   try {
     const slugs = await getAllArticleSlugs();
@@ -165,7 +198,7 @@ export default async function ArticleDetailPage({ params }: Props) {
       <Separator className="mb-8" />
       <div
         className="prose max-w-none prose-headings:font-bold prose-a:text-primary prose-img:rounded-lg"
-        dangerouslySetInnerHTML={{ __html: addTargetBlankToExternalLinks(article.content) }}
+        dangerouslySetInnerHTML={{ __html: restoreArticleImages(addTargetBlankToExternalLinks(article.content), article.slug) }}
       />
 
       {/* 内部リンク: ランキングへの導線 */}
