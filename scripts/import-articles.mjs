@@ -179,10 +179,15 @@ async function findArticleBySlug(slug) {
 /**
  * 記事を作成または更新
  */
+const SITE_URL = "https://pikura.app";
+
 async function upsertArticle(article, index, total) {
   const mdPath = resolve(ARTICLES_DIR, article.file);
   const markdown = readFileSync(mdPath, "utf-8");
-  const html = await marked(markdown);
+  let html = await marked(markdown);
+
+  // 相対パスの画像を絶対URLに変換（microCMSリッチエディタで表示するため）
+  html = html.replace(/src="\/images\//g, `src="${SITE_URL}/images/`);
 
   const body = {
     title: article.title,
