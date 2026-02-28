@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  // 選手ページ（124名分）
+  // 選手ページ（124名分、JPA 2026年1月データ）
   const playerEntries: MetadataRoute.Sitemap = getAllPlayerSlugs().map(
     (slug) => ({
       url: `${BASE_URL}/players/${encodeURIComponent(slug)}`,
@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
-  // イベント個別ページ
+  // イベント個別ページ（254件）
   const eventEntries: MetadataRoute.Sitemap = getAllEventIds().map((id) => ({
     url: `${BASE_URL}/events/${id}`,
     lastModified: new Date(),
@@ -40,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  // ショップ商品ページ
+  // ショップ商品ページ（25商品）
   const productEntries: MetadataRoute.Sitemap = getAllProductSlugs().map(
     (slug) => ({
       url: `${BASE_URL}/shop/${slug}`,

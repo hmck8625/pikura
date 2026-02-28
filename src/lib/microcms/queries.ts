@@ -81,14 +81,26 @@ export async function getRelatedArticles(
 }
 
 export async function getAllArticleSlugs(): Promise<string[]> {
-  const response = await microcmsClient.getList<Article>({
-    endpoint: "articles",
-    queries: {
-      fields: ["slug"],
-      limit: 100,
-      orders: "-publishedAt",
-    },
-  });
+  const slugs: string[] = [];
+  const PER_PAGE = 100;
+  let offset = 0;
+  let totalCount = 0;
 
-  return response.contents.map((article) => article.slug);
+  do {
+    const response = await microcmsClient.getList<Article>({
+      endpoint: "articles",
+      queries: {
+        fields: ["slug"],
+        limit: PER_PAGE,
+        offset,
+        orders: "-publishedAt",
+      },
+    });
+
+    slugs.push(...response.contents.map((article) => article.slug));
+    totalCount = response.totalCount;
+    offset += PER_PAGE;
+  } while (offset < totalCount);
+
+  return slugs;
 }
