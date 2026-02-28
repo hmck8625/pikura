@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ArticleThumbnail } from "@/components/features/articles/article-thumbnail";
 import { getArticleList } from "@/lib/microcms/queries";
 import type { Article } from "@/types";
 
@@ -141,37 +141,12 @@ const categoryLabels: Record<string, string> = {
   players: "選手",
 };
 
-const categoryIconLabels: Record<string, string> = {
-  beginner: "入",
-  rules: "ル",
-  gear: "ギ",
-  events: "大",
-  tips: "戦",
-  players: "選",
-};
-
 function formatDate(dateString: string): string {
   return new Date(dateString).toLocaleDateString("ja-JP", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
-}
-
-function ArticleThumbnailPlaceholder({ category }: { category: string }) {
-  const label = categoryIconLabels[category] ?? "記";
-  return (
-    <div className="flex aspect-video items-center justify-center bg-muted">
-      <div className="flex flex-col items-center gap-1">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-lg font-bold text-primary">
-          {label}
-        </span>
-        <span className="text-xs text-muted-foreground">
-          {categoryLabels[category] ?? "記事"}
-        </span>
-      </div>
-    </div>
-  );
 }
 
 type Props = {
@@ -186,7 +161,7 @@ export default async function ArticlesPage({ searchParams }: Props) {
 
   try {
     const response = await getArticleList({
-      limit: 20,
+      limit: 100,
       category: selectedCategory === "all" ? undefined : selectedCategory,
     });
     articles = response.contents.length > 0 ? response.contents : fallbackArticles;
@@ -246,12 +221,10 @@ export default async function ArticlesPage({ searchParams }: Props) {
             <Card key={article.id} className="overflow-hidden transition-colors hover:bg-muted/50">
               <Link href={`/articles/${article.slug}`}>
                 <div className="relative aspect-video">
-                  <Image
+                  <ArticleThumbnail
                     src={article.thumbnail?.url ?? `/images/articles/${article.slug}.png`}
                     alt={article.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    category={article.category}
                   />
                 </div>
               </Link>
