@@ -51,6 +51,35 @@ export async function getArticleBySlug(
   return response.contents[0] ?? null;
 }
 
+export async function getRelatedArticles(
+  slug: string,
+  category: string,
+  limit = 4,
+): Promise<Article[]> {
+  const response = await microcmsClient.getList<Article>({
+    endpoint: "articles",
+    queries: {
+      filters: `slug[not_equals]${slug}[and]category[equals]${category}`,
+      limit,
+      orders: "-publishedAt",
+      fields: [
+        "id",
+        "title",
+        "slug",
+        "description",
+        "thumbnail",
+        "category",
+        "publishedAt",
+      ],
+    },
+    customRequestInit: {
+      next: { revalidate: 3600 },
+    },
+  });
+
+  return response.contents;
+}
+
 export async function getAllArticleSlugs(): Promise<string[]> {
   const response = await microcmsClient.getList<Article>({
     endpoint: "articles",

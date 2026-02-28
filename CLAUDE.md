@@ -161,20 +161,22 @@ public/                 # 静的ファイル
   - `/generate-eyecatch` — 記事アイキャッチ画像の生成
   - `/generate-video-script` — ショート動画台本の生成
   - `/generate-short` — 記事→ショート動画の一括生成パイプライン
-  - `/import-articles` — microCMSへの記事一括入稿
+  - `/import-articles` — microCMSへの記事一括入稿（画像生成・カテゴリ検証込み）
   - `/fetch-events` — イベントデータの統合取得・更新（JPA API + 手動キュレーション）
   - `/add-event` — 手動イベント追加（テニスベア・PJF等の公開情報をmanual-events.jsonに登録）
   - `/update-sitemap` — サイトマップの確認・更新
   - `/weekly-review` — 週次レビュー・AIチームMTG
+  - `/mtg` — 社内幹部MTG（Day終了/Week振り返り/緊急議題）
   - `/register-base-products` — BASE APIで商品一括登録・画像アップロード
   - `/add-product` — 新商品追加ワークフロー（データ追加→画像生成→デプロイ→BASE登録）
   - `/upload-youtube` — YouTube Shortsのアップロード
   - `/analyze-gsc` — Google Search Console分析レポート生成
   - `/analyze-youtube` — YouTube Analyticsレポート生成
 - **運用ルール**:
-  - 繰り返し発生する作業は必ずスキルとして定義すること
+  - **同じ作業が2回以上発生したら、即座にスキル化する。** 「次も同じ手順を踏むかもしれない」と思ったら、その時点でスキルファイルを作成すること。後回しにしない
   - スキルの中身は週次レビュー時に確認し、データや手順が古くなっていれば更新する
   - 新しい定期作業が発生したら即座にスキルファイルを作成する
+  - AIアシスタントは、ユーザーから指示されなくても、繰り返しパターンを検知したら自発的にスキル化を提案・実行すること
 
 ## ショップ / EC
 

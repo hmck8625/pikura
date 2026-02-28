@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/features/seo/json-ld";
 import { ProductList } from "@/components/features/articles/product-card";
-import { getArticleBySlug, getAllArticleSlugs } from "@/lib/microcms/queries";
+import { getArticleBySlug, getAllArticleSlugs, getRelatedArticles } from "@/lib/microcms/queries";
 import { getProductsForArticle, getProductSectionTitle } from "@/lib/affiliate/products";
 import type { Article } from "@/types";
 
@@ -158,6 +158,13 @@ export default async function ArticleDetailPage({ params }: Props) {
   const productTitle = getProductSectionTitle(article.slug);
   const thumbnailUrl = article.thumbnail?.url ?? `/images/articles/${article.slug}.png`;
 
+  let relatedArticles: Article[] = [];
+  try {
+    relatedArticles = await getRelatedArticles(article.slug, article.category, 4);
+  } catch {
+    // microCMS取得失敗時は空配列のまま
+  }
+
   return (
     <>
     <ArticleJsonLd
@@ -213,17 +220,44 @@ export default async function ArticleDetailPage({ params }: Props) {
         </Button>
       </div>
 
-      {/* 関連記事リンク */}
-      <div className="mt-8">
-        <p className="mb-3 text-sm font-medium text-muted-foreground">
-          関連記事
-        </p>
-        <div className="flex flex-wrap gap-2">
-          <Button asChild variant="outline" size="sm">
-            <Link href="/articles">記事一覧を見る</Link>
-          </Button>
+      {/* 関連記事 */}
+      {relatedArticles.length > 0 && (
+        <div className="mt-8">
+          <h2 className="mb-4 text-xl font-bold">関連記事</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {relatedArticles.map((related) => (
+              <Link
+                key={related.slug}
+                href={`/articles/${related.slug}`}
+                className="group flex gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50"
+              >
+                <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded">
+                  <Image
+                    src={related.thumbnail?.url ?? `/images/articles/${related.slug}.png`}
+                    alt={related.title}
+                    fill
+                    className="object-cover"
+                    sizes="96px"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <p className="line-clamp-2 text-sm font-medium group-hover:text-primary">
+                    {related.title}
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {categoryLabels[related.category] ?? related.category}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-4 text-center">
+            <Button asChild variant="outline" size="sm">
+              <Link href="/articles">すべての記事を見る</Link>
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 関連商品（控えめに記事最下部に配置） */}
       {products.length > 0 && (
