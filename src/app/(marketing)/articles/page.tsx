@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArticleThumbnail } from "@/components/features/articles/article-thumbnail";
 import { getArticleList } from "@/lib/microcms/queries";
-import type { Article } from "@/types";
 
 export const revalidate = 3600;
 
@@ -19,118 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
-const fallbackArticles: Article[] = [
-  {
-    id: "1",
-    title: "ピックルボールとは？初心者向け完全ガイド【2026年最新】",
-    slug: "what-is-pickleball",
-    category: "beginner",
-    description: "ピックルボールの基本ルール・魅力・歴史から日本の最新動向まで。これを読めば全体像がわかります。",
-    content: "",
-    publishedAt: "2026-02-26T00:00:00.000Z",
-    createdAt: "2026-02-26T00:00:00.000Z",
-    updatedAt: "2026-02-26T00:00:00.000Z",
-  },
-  {
-    id: "2",
-    title: "ピックルボールの始め方｜初心者が揃えるべき道具・費用・練習場所",
-    slug: "how-to-start-pickleball",
-    category: "beginner",
-    description: "パドル・ボール・シューズの選び方から練習場所の探し方まで、ゼロから始める5ステップを解説。",
-    content: "",
-    publishedAt: "2026-02-25T00:00:00.000Z",
-    createdAt: "2026-02-25T00:00:00.000Z",
-    updatedAt: "2026-02-25T00:00:00.000Z",
-  },
-  {
-    id: "3",
-    title: "ピックルボールのルール完全解説｜サーブ・得点・キッチン",
-    slug: "pickleball-rules",
-    category: "rules",
-    description: "サーブルール、スコアリング、キッチン（ノンボレーゾーン）など、2026年最新ルールを徹底解説。",
-    content: "",
-    publishedAt: "2026-02-24T00:00:00.000Z",
-    createdAt: "2026-02-24T00:00:00.000Z",
-    updatedAt: "2026-02-24T00:00:00.000Z",
-  },
-  {
-    id: "4",
-    title: "ピックルボールのパドルおすすめ10選｜初心者〜上級者の選び方",
-    slug: "paddle-guide",
-    category: "gear",
-    description: "JOOLA、Selkirk、Franklinなど人気パドル10モデルを徹底比較。素材・重さ・価格別の選び方ガイド。",
-    content: "",
-    publishedAt: "2026-02-23T00:00:00.000Z",
-    createdAt: "2026-02-23T00:00:00.000Z",
-    updatedAt: "2026-02-23T00:00:00.000Z",
-  },
-  {
-    id: "5",
-    title: "東京でピックルボールができる場所まとめ｜専用コート・体験会",
-    slug: "tokyo-pickleball-courts",
-    category: "beginner",
-    description: "池袋・渋谷・お台場など東京都内のピックルボール施設6選。料金・アクセス・予約方法付き。",
-    content: "",
-    publishedAt: "2026-02-22T00:00:00.000Z",
-    createdAt: "2026-02-22T00:00:00.000Z",
-    updatedAt: "2026-02-22T00:00:00.000Z",
-  },
-  {
-    id: "6",
-    title: "ピックルボール ダブルス戦術ガイド｜勝てるペアになるための基本と応用",
-    slug: "doubles-tactics",
-    category: "tips",
-    description: "3rdショットドロップ、ディンク戦、スタッキング、ポーチなど、ダブルスで勝つための戦術を網羅。",
-    content: "",
-    publishedAt: "2026-02-21T00:00:00.000Z",
-    createdAt: "2026-02-21T00:00:00.000Z",
-    updatedAt: "2026-02-21T00:00:00.000Z",
-  },
-  {
-    id: "7",
-    title: "ピックルボール コートのサイズ・寸法と設営方法",
-    slug: "court-size-setup",
-    category: "rules",
-    description: "コート寸法、テニス/バドミントンコートとの比較、自宅・体育館での設営方法と費用を解説。",
-    content: "",
-    publishedAt: "2026-02-20T00:00:00.000Z",
-    createdAt: "2026-02-20T00:00:00.000Z",
-    updatedAt: "2026-02-20T00:00:00.000Z",
-  },
-  {
-    id: "8",
-    title: "ピックルボール シューズおすすめ8選｜インドア・アウトドア別",
-    slug: "shoes-guide",
-    category: "gear",
-    description: "ミズノ、アシックス、ヨネックスなどインドア・アウトドア別おすすめ8足を価格・特徴付きで紹介。",
-    content: "",
-    publishedAt: "2026-02-19T00:00:00.000Z",
-    createdAt: "2026-02-19T00:00:00.000Z",
-    updatedAt: "2026-02-19T00:00:00.000Z",
-  },
-  {
-    id: "9",
-    title: "初めてのピックルボール大会参加ガイド｜エントリーから当日まで",
-    slug: "first-tournament-guide",
-    category: "events",
-    description: "JPA大会の種類、エントリー方法、持ち物、当日の流れ。初心者が出やすい大会情報付き。",
-    content: "",
-    publishedAt: "2026-02-18T00:00:00.000Z",
-    createdAt: "2026-02-18T00:00:00.000Z",
-    updatedAt: "2026-02-18T00:00:00.000Z",
-  },
-  {
-    id: "10",
-    title: "JPA公式ランキングの仕組み｜ポイント計算・カテゴリ・載り方",
-    slug: "jpa-ranking-explained",
-    category: "events",
-    description: "2026年1月に開始されたJPA公式ランキング制度を徹底解説。ポイント計算、カテゴリ分類、DUPRとの違い。",
-    content: "",
-    publishedAt: "2026-02-17T00:00:00.000Z",
-    createdAt: "2026-02-17T00:00:00.000Z",
-    updatedAt: "2026-02-17T00:00:00.000Z",
-  },
-];
+const ARTICLES_PER_PAGE = 18;
 
 const categoryLabels: Record<string, string> = {
   beginner: "入門",
@@ -149,30 +36,37 @@ function formatDate(dateString: string): string {
   });
 }
 
+function buildHref(params: { category?: string; page?: number }): string {
+  const searchParams = new URLSearchParams();
+  if (params.category && params.category !== "all") {
+    searchParams.set("category", params.category);
+  }
+  if (params.page && params.page > 1) {
+    searchParams.set("page", String(params.page));
+  }
+  const qs = searchParams.toString();
+  return qs ? `/articles?${qs}` : "/articles";
+}
+
 type Props = {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; page?: string }>;
 };
 
 export default async function ArticlesPage({ searchParams }: Props) {
   const params = await searchParams;
   const selectedCategory = params.category ?? "all";
+  const currentPage = Math.max(1, Number(params.page) || 1);
+  const offset = (currentPage - 1) * ARTICLES_PER_PAGE;
 
-  let articles: Article[];
+  const response = await getArticleList({
+    limit: ARTICLES_PER_PAGE,
+    offset,
+    category: selectedCategory === "all" ? undefined : selectedCategory,
+  });
 
-  try {
-    const response = await getArticleList({
-      limit: 100,
-      category: selectedCategory === "all" ? undefined : selectedCategory,
-    });
-    articles = response.contents.length > 0 ? response.contents : fallbackArticles;
-  } catch {
-    articles = fallbackArticles;
-  }
-
-  // API側でフィルタ済み。fallback使用時のみJSフィルタ
-  const filteredArticles = selectedCategory === "all" || articles !== fallbackArticles
-    ? articles
-    : articles.filter((a) => a.category === selectedCategory);
+  const articles = response.contents;
+  const totalCount = response.totalCount;
+  const totalPages = Math.ceil(totalCount / ARTICLES_PER_PAGE);
 
   const categories = ["all", ...Object.keys(categoryLabels)] as const;
 
@@ -186,38 +80,35 @@ export default async function ArticlesPage({ searchParams }: Props) {
       </div>
 
       {/* カテゴリフィルタ */}
-      <Suspense fallback={null}>
-        <div className="mb-8 flex flex-wrap gap-2">
-          {categories.map((cat) => {
-            const isActive = cat === selectedCategory;
-            const label = cat === "all" ? "すべて" : categoryLabels[cat];
-            return (
-              <Button
-                key={cat}
-                asChild
-                variant={isActive ? "default" : "outline"}
-                size="sm"
-              >
-                <Link
-                  href={cat === "all" ? "/articles" : `/articles?category=${cat}`}
-                >
-                  {label}
-                </Link>
-              </Button>
-            );
-          })}
-        </div>
-      </Suspense>
+      <div className="mb-8 flex flex-wrap gap-2">
+        {categories.map((cat) => {
+          const isActive = cat === selectedCategory;
+          const label = cat === "all" ? "すべて" : categoryLabels[cat];
+          return (
+            <Button
+              key={cat}
+              asChild
+              variant={isActive ? "default" : "outline"}
+              size="sm"
+            >
+              <Link href={buildHref({ category: cat })}>
+                {label}
+              </Link>
+            </Button>
+          );
+        })}
+      </div>
 
-      {/* 記事件数 */}
+      {/* 記事件数 + ページ情報 */}
       <p className="mb-4 text-sm text-muted-foreground">
-        {filteredArticles.length}件の記事
+        {totalCount}件の記事
+        {totalPages > 1 && `（${currentPage} / ${totalPages}ページ）`}
       </p>
 
       {/* 記事一覧 */}
-      {filteredArticles.length > 0 ? (
+      {articles.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {filteredArticles.map((article) => (
+          {articles.map((article) => (
             <Card key={article.id} className="overflow-hidden transition-colors hover:bg-muted/50">
               <Link href={`/articles/${article.slug}`}>
                 <div className="relative aspect-video">
@@ -263,6 +154,82 @@ export default async function ArticlesPage({ searchParams }: Props) {
             <Link href="/articles">すべての記事を見る</Link>
           </Button>
         </div>
+      )}
+
+      {/* ページネーション */}
+      {totalPages > 1 && (
+        <nav className="mt-10 flex items-center justify-center gap-2" aria-label="ページナビゲーション">
+          {/* 前へ */}
+          {currentPage > 1 ? (
+            <Button asChild variant="outline" size="sm">
+              <Link href={buildHref({ category: selectedCategory, page: currentPage - 1 })}>
+                ← 前へ
+              </Link>
+            </Button>
+          ) : (
+            <Button variant="outline" size="sm" disabled>
+              ← 前へ
+            </Button>
+          )}
+
+          {/* ページ番号 */}
+          <div className="flex items-center gap-1">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+              // 表示するページ番号を制限（現在ページの前後2ページ + 先頭/末尾）
+              const showPage =
+                page === 1 ||
+                page === totalPages ||
+                Math.abs(page - currentPage) <= 2;
+
+              if (!showPage) {
+                // 省略記号（直前のページが表示されている場合のみ）
+                const prevShown =
+                  page - 1 === 1 ||
+                  page - 1 === totalPages ||
+                  Math.abs(page - 1 - currentPage) <= 2;
+                if (prevShown) {
+                  return (
+                    <span key={`ellipsis-${page}`} className="px-1 text-muted-foreground">
+                      …
+                    </span>
+                  );
+                }
+                return null;
+              }
+
+              return (
+                <Button
+                  key={page}
+                  asChild={page !== currentPage}
+                  variant={page === currentPage ? "default" : "outline"}
+                  size="sm"
+                  className="min-w-[36px]"
+                >
+                  {page === currentPage ? (
+                    <span>{page}</span>
+                  ) : (
+                    <Link href={buildHref({ category: selectedCategory, page })}>
+                      {page}
+                    </Link>
+                  )}
+                </Button>
+              );
+            })}
+          </div>
+
+          {/* 次へ */}
+          {currentPage < totalPages ? (
+            <Button asChild variant="outline" size="sm">
+              <Link href={buildHref({ category: selectedCategory, page: currentPage + 1 })}>
+                次へ →
+              </Link>
+            </Button>
+          ) : (
+            <Button variant="outline" size="sm" disabled>
+              次へ →
+            </Button>
+          )}
+        </nav>
       )}
     </div>
   );

@@ -338,6 +338,86 @@ const ARTICLE_PROMPTS = {
 
   "tennis-to-pickleball":
     "Transition illustration: tennis player walking through a doorway from a tennis court into a pickleball court. Transformation/journey theme. Before and after style.",
+
+  "pickleball-find-partner":
+    "Warm illustration of diverse people connecting at a pickleball court, shaking hands and smiling. Community gathering theme. Friendly, welcoming atmosphere. Sky blue and emerald green tones.",
+
+  "pickleball-courts-nearby":
+    "Map-style illustration with location pins on a stylized Japan map, each pin showing a pickleball court. Modern cartographic design. Blue and green color scheme.",
+
+  "pickleball-tournament-tokyo":
+    "Dynamic illustration of a pickleball tournament scene with Tokyo skyline (Tokyo Tower, Skytree) in background. Players competing on multiple courts. Energetic, competitive atmosphere.",
+
+  "pickleball-experience-tokyo-osaka":
+    "Welcoming illustration of beginners at a pickleball experience session. Coach explaining rules, new players trying paddles. Indoor gym setting. Bright, encouraging atmosphere.",
+
+  "pickleball-solo-start":
+    "Illustration of a single person confidently walking onto a pickleball court with paddle in hand. Warm sunrise lighting. Encouraging, empowering mood. Path leading to the court.",
+
+  // --- Round 5: 106-115 ---
+  "pickleball-age-guide":
+    "Infographic illustration showing people of different ages playing pickleball: child, teen, adult, senior. Age progression timeline. Multigenerational activity. Warm, inclusive colors.",
+
+  "pickleball-ben-johns":
+    "Dynamic illustration of a male professional pickleball player in action, powerful forehand drive. Stadium lights, tournament court, intense focus. American sports star atmosphere.",
+
+  "pickleball-wheelchair":
+    "Inspiring illustration of wheelchair pickleball players on court. Adaptive sports equipment, competitive spirit. Inclusive, empowering atmosphere. Paralympic sports style.",
+
+  "niigata-nagano-pickleball":
+    "Illustration of Niigata rice fields and Nagano mountain scenery (Japanese Alps) with pickleball courts. Winter indoor facility visible. Japanese countryside sports scene.",
+
+  "pickleball-tournament-entry":
+    "Illustration of a player registering for a tournament on a smartphone. Entry form, QR code, bracket preview. Modern digital registration process. Clean UI design style.",
+
+  "kumamoto-kyushu-pickleball":
+    "Illustration of Kumamoto Castle and Sakurajima volcano with pickleball courts in foreground. Southern Kyushu atmosphere. Warm, tropical-tinged Japanese regional scene.",
+
+  "pickleball-ernie-atp":
+    "Dynamic illustration of advanced pickleball shots: player lunging outside the court for an Erne, ball curving around the post for ATP. Action lines, dramatic angles. Advanced technique showcase.",
+
+  "pickleball-anna-leigh-waters":
+    "Dynamic illustration of a young female professional pickleball player executing a powerful shot. Youthful energy, tournament arena, competitive intensity. American women's sports star atmosphere.",
+
+  "pickleball-university":
+    "Energetic illustration of college students playing pickleball on a university campus. Campus buildings, young athletes, club activity vibes. Fun, social, educational atmosphere.",
+
+  "pickleball-brand-paddles":
+    "Product showcase illustration of premium pickleball paddles from different brands arranged in a comparison layout. Brand logos, specifications, rating stars. Professional gear review style.",
+
+  // --- Round 6: 116-126 ---
+  "pickleball-drill-videos":
+    "Illustration of a pickleball player practicing drills with a tablet showing YouTube videos nearby. Cone drills, wall practice, structured practice session. Modern training facility atmosphere.",
+
+  "pickleball-bag-case":
+    "Product showcase illustration of various pickleball bags: sling bag, backpack, duffel bag, and tote bag arranged neatly. Paddles and accessories visible inside. Clean product photography style.",
+
+  "pickleball-sunglasses":
+    "Stylish illustration of sports sunglasses for pickleball. Multiple lens colors (amber, gray, rose), player wearing wraparound frames on an outdoor court. Bright sunny day, UV protection concept.",
+
+  "pickleball-amazon-rakuten":
+    "Illustration of a smartphone screen showing an online shopping cart filled with pickleball gear. Amazon and Rakuten-style product listings. Packages being delivered. E-commerce shopping guide concept.",
+
+  "pickleball-vs-squash":
+    "Split-screen illustration comparing pickleball (outdoor court, paddle, wiffle ball) and squash (indoor enclosed court, racquet, rubber ball). Side-by-side comparison infographic style.",
+
+  "pickleball-instagram-sns":
+    "Illustration of a smartphone displaying Instagram feed with pickleball content. Social media icons (Instagram, X, TikTok), hashtags floating around. Vibrant social media community atmosphere.",
+
+  "pickleball-podcast":
+    "Cozy illustration of someone listening to a pickleball podcast with headphones during commute. Podcast app on smartphone, microphone icon, sound waves. Audio learning concept.",
+
+  "pickleball-books":
+    "Illustration of pickleball-related books stacked on a desk with a paddle nearby. Book covers showing court diagrams and player illustrations. Study and learning atmosphere.",
+
+  "pickleball-english":
+    "Educational illustration showing pickleball court with English terminology labels. Speech bubbles with phrases like 'Nice shot!', 'Side out!'. Bilingual learning concept, Japanese-English.",
+
+  "pickleball-business-market":
+    "Business infographic illustration showing pickleball market growth. Upward trending graphs, dollar signs, facility icons, global expansion map. Professional business analysis style.",
+
+  "pickleball-fun-guide":
+    "Joyful illustration of diverse people laughing and high-fiving on a pickleball court. All ages and skill levels, inclusive atmosphere. Warm, inviting, fun recreational sports scene.",
 };
 
 /** 全記事スラッグ一覧 */
