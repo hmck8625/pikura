@@ -3,6 +3,7 @@ import { getAllArticleSlugs } from "@/lib/microcms/queries";
 import { getAllPlayerSlugs } from "@/lib/ranking/data";
 import { getAllEventIds } from "@/lib/events/data";
 import { getAllProductSlugs } from "@/lib/shop/data";
+import { getAllCoachSlugs } from "@/lib/coaching/data";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -49,6 +50,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
   );
 
+  // コーチングページ
+  const coachEntries: MetadataRoute.Sitemap = getAllCoachSlugs().map(
+    (slug) => ({
+      url: `${BASE_URL}/coaching/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }),
+  );
+
   return [
     {
       url: BASE_URL,
@@ -83,6 +94,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...articleEntries,
     ...playerEntries,
     ...eventEntries,
+    {
+      url: `${BASE_URL}/coaching`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    ...coachEntries,
     {
       url: `${BASE_URL}/shop`,
       lastModified: new Date(),
