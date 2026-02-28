@@ -138,6 +138,22 @@ const articles = [
       "ソフトテニス全日本王者からピックルボールに転向。MLP日本人初ドラフト指名の快挙と戦績を徹底解説。",
     file: "013_船水雄太ピックルボール.md",
   },
+  {
+    slug: "pickleball-japan-tv",
+    title: "ピックルボールジャパンTVが日本一おすすめな理由｜船水雄太のYouTubeチャンネル徹底解説【2026年最新】",
+    category: "players",
+    description:
+      "船水雄太選手が運営するYouTubeチャンネル「ピックルボールジャパンTV」を徹底解説。MLP挑戦ドキュメンタリー、試合映像、技術解説、パドルレビューなど、日本語で世界最高峰のピックルボールを学べる唯一無二のチャンネルの魅力と、レベル別おすすめ視聴ガイドを紹介。",
+    file: "014_ピックルボールジャパンTV特集.md",
+  },
+  {
+    slug: "app-japan-open-2026-report",
+    title: "APP JAPAN SKECHERS Open 2026 現地レポート｜日本初のAPP公式国際大会を体験してきた",
+    category: "events",
+    description:
+      "2026年2月、三重県津市で開催された日本初のAPP公式国際ピックルボール大会「APP JAPAN SKECHERS Open 2026」の現地レポート。12面のコート、DUPR6.5クラスの海外プロ選手のプレー、豪華スポンサー陣など、写真付きで会場の様子をお届けします。",
+    file: "015_APP_JAPAN_Open_2026現地レポート.md",
+  },
 ];
 
 /**
