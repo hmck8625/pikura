@@ -99,21 +99,31 @@ export default async function HomePage() {
       <Header />
       <main>
         {/* 1. Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-primary/10 to-background py-20 md:py-32">
+        <section className="relative overflow-hidden bg-black py-20 md:py-32">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover opacity-40"
+            aria-hidden="true"
+          >
+            <source src="/videos/fv-hero.mp4" type="video/mp4" />
+          </video>
           <div
-            className="absolute inset-0 bg-[url('/images/hero/hero-pickleball.png')] bg-cover bg-center opacity-[0.06]"
+            className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/60"
             aria-hidden="true"
           />
           <div className="container relative mx-auto px-4 text-center">
-            <Badge variant="secondary" className="mb-6 text-sm">
+            <Badge className="mb-6 border-white/30 bg-white/15 text-sm text-white backdrop-blur-sm">
               日本最大のピックルボール情報サイト
             </Badge>
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl">
               ピックルボールするなら、
               <br />
               ピクラ。
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-base text-muted-foreground sm:text-lg md:text-xl">
+            <p className="mx-auto mt-6 max-w-2xl text-base text-white/80 drop-shadow-md sm:text-lg md:text-xl">
               大会情報、ランキング、コーチング、入門ガイド。
               <br className="hidden sm:block" />
               日本のピックルボール情報が、ここに集まる。
@@ -125,7 +135,7 @@ export default async function HomePage() {
                   イベントを探す
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="w-full text-base sm:w-auto">
+              <Button asChild variant="outline" size="lg" className="w-full border-white/40 text-base text-white hover:bg-white/10 sm:w-auto">
                 <Link href="/articles">
                   <BookOpen className="mr-2 h-5 w-5" />
                   記事を読む
