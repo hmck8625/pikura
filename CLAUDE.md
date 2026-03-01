@@ -153,10 +153,24 @@ public/                 # 静的ファイル
 - **動画ファイル**: `public/videos/` に MP4 格納済み（Shorts用 1080x1920）
 - **セットアップ**: Google Cloud Console → YouTube Data API v3 有効化 → OAuth クライアントID（デスクトップアプリ）→ JSON を `.youtube-client-secret.json` に配置
 
+## X (Twitter) API（自動投稿）
+
+- **アプリ名**: pikura-投稿（X Developer Portal）
+- **認証**: OAuth 1.0a User Context（Consumer Key/Secret + Access Token/Secret）
+- **環境変数**: `X_CONSUMER_KEY`, `X_CONSUMER_SECRET`, `X_BEARER_TOKEN`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`
+- **パッケージ**: `twitter-api-v2`
+- **スクリプト**:
+  - `scripts/post-tweet.mjs` — 単発ツイート投稿（`--dry-run` 対応）
+  - `scripts/auto-tweet.mjs` — Gemini生成→選択→投稿の統合スクリプト（`--auto`, `--dry-run`）
+  - `scripts/generate-tweets.mjs` — ツイート候補生成のみ（20記事対応）
+- **投稿履歴**: `scripts/.tweet-history.json`（直近100件を保持）
+- **制限**: X Basic プラン — 月1,500ツイートまで
+
 ## スキル（繰り返し作業の定義）
 
 - **スキル定義**: `.claude/commands/` ディレクトリにMarkdownファイルで定義
 - **定義済みスキル**:
+  - `/post-tweet` — ツイート生成→選択→投稿ワークフロー
   - `/generate-tweets` — X投稿候補の自動生成
   - `/generate-eyecatch` — 記事アイキャッチ画像の生成
   - `/generate-video-script` — ショート動画台本の生成

@@ -42,6 +42,16 @@ const ARTICLES = [
   { slug: "shoes-guide", title: "シューズおすすめ8選" },
   { slug: "first-tournament-guide", title: "初めてのピックルボール大会参加ガイド" },
   { slug: "jpa-ranking-explained", title: "JPA公式ランキングの仕組み" },
+  { slug: "serve-basics", title: "ピックルボールのサーブ基本3種類" },
+  { slug: "dink-basics", title: "ディンクとは？30秒解説" },
+  { slug: "pickleball-vs-tennis", title: "ピックルボール vs テニス 5つの違い" },
+  { slug: "dupr-japan", title: "DUPRって何？日本で使えるの？" },
+  { slug: "third-shot-drop", title: "3rdショットドロップ 初心者向け" },
+  { slug: "doubles-position", title: "ダブルスの基本ポジション" },
+  { slug: "osaka-pickleball", title: "大阪でピックルボールできる場所TOP3" },
+  { slug: "app-japan-open", title: "APP JAPAN Open ハイライト" },
+  { slug: "kitchen-rule-simple", title: "キッチンルール これだけ覚えればOK" },
+  { slug: "kitchen-rules", title: "キッチンルール完全ガイド" },
 ];
 
 // ---------------------------------------------------------------------------

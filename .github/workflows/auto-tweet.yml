@@ -1,0 +1,35 @@
+name: Auto Tweet
+
+on:
+  schedule:
+    # JST 9:00, 12:00, 14:00, 16:30, 19:00（UTC表記）
+    - cron: '0 0 * * *'
+    - cron: '0 3 * * *'
+    - cron: '0 5 * * *'
+    - cron: '30 7 * * *'
+    - cron: '0 10 * * *'
+  workflow_dispatch: # 手動実行用
+
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install twitter-api-v2
+        run: npm install twitter-api-v2
+
+      - name: Generate and post tweet
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          X_CONSUMER_KEY: ${{ secrets.X_CONSUMER_KEY }}
+          X_CONSUMER_SECRET: ${{ secrets.X_CONSUMER_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+        run: node scripts/auto-tweet.mjs --auto
