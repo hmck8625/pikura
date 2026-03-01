@@ -52,6 +52,14 @@ const ARTICLES = [
   { slug: "app-japan-open", title: "APP JAPAN Open ハイライト" },
   { slug: "kitchen-rule-simple", title: "キッチンルール これだけ覚えればOK" },
   { slug: "kitchen-rules", title: "キッチンルール完全ガイド" },
+  { slug: "nagoya-pickleball", title: "名古屋でピックルボールできる場所" },
+  { slug: "scoring-guide", title: "スコアの数え方 完全ガイド" },
+  { slug: "practice-drills", title: "ピックルボール練習ドリル10選" },
+  { slug: "injury-prevention", title: "ピックルボール怪我予防ガイド" },
+  { slug: "singles-tactics", title: "シングルス戦術ガイド" },
+  { slug: "senior-pickleball", title: "シニアのためのピックルボール" },
+  { slug: "tennis-convert", title: "テニスからピックルボールへの転向ガイド" },
+  { slug: "kanagawa-pickleball", title: "神奈川でピックルボールできる場所" },
 ];
 
 // ---------------------------------------------------------------------------
