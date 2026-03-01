@@ -1,3 +1,6 @@
+import type { PickleballEvent } from "@/lib/events/types";
+import type { Product } from "@/lib/shop/types";
+
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://pikura.app";
 
 // サイト全体のOrganization + WebSite構造化データ
@@ -110,8 +113,11 @@ export function PlayerJsonLd({
     name,
     url: `${BASE_URL}/players/${encodeURIComponent(slug)}`,
     description: `${name} - JPA公式ピックルボールランキング ${bestCategory} ${bestRank}位 / ${totalPoints}pt`,
-    memberOf: {
-      "@type": "SportsOrganization",
+    image: `${BASE_URL}/api/og?type=player&name=${encodeURIComponent(name)}&rank=${bestRank}&points=${totalPoints}`,
+    sameAs: [],
+    knowsAbout: "ピックルボール",
+    affiliation: {
+      "@type": "Organization",
       name: "日本ピックルボール協会（JPA）",
     },
   };
@@ -138,6 +144,114 @@ export function BreadcrumbJsonLd({
       position: i + 1,
       name: item.name,
       item: item.url,
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+// イベントページの構造化データ
+export function EventJsonLd({ event }: { event: PickleballEvent }) {
+  const data: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "SportsEvent",
+    name: event.title,
+    description: event.description.slice(0, 200),
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  };
+
+  if (event.eventDate) {
+    data.startDate = event.eventDate;
+  }
+  if (event.eventEndDate) {
+    data.endDate = event.eventEndDate;
+  }
+  if (event.location) {
+    data.location = {
+      "@type": "Place",
+      name: event.location,
+      ...(event.prefecture && {
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: event.prefecture,
+          addressCountry: "JP",
+        },
+      }),
+    };
+  }
+  if (event.entryFee) {
+    data.offers = {
+      "@type": "Offer",
+      price: event.entryFee,
+      priceCurrency: "JPY",
+      url: event.registrationUrl ?? event.sourceUrl,
+      ...(event.registrationStatus === "open" && {
+        availability: "https://schema.org/InStock",
+      }),
+      ...(event.registrationStatus === "closed" && {
+        availability: "https://schema.org/SoldOut",
+      }),
+    };
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+// 商品ページの構造化データ
+export function ProductJsonLd({ product }: { product: Product }) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: `${BASE_URL}${product.imagePath}`,
+    url: `${BASE_URL}/shop/${product.slug}`,
+    offers: {
+      "@type": "Offer",
+      price: product.price,
+      priceCurrency: "JPY",
+      availability: product.purchaseUrl
+        ? "https://schema.org/InStock"
+        : "https://schema.org/PreOrder",
+      ...(product.purchaseUrl && { url: product.purchaseUrl }),
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+// FAQページの構造化データ
+export function FAQPageJsonLd({
+  items,
+}: {
+  items: { question: string; answer: string }[];
+}) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
     })),
   };
 

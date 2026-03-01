@@ -8,16 +8,16 @@ import { getAllCoachSlugs } from "@/lib/coaching/data";
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  let articleSlugs: string[] = [];
+  let articles: { slug: string; updatedAt: string }[] = [];
   try {
-    articleSlugs = await getAllArticleSlugs();
+    articles = await getAllArticleSlugs();
   } catch {
     // microCMS unavailable - continue with static pages only
   }
 
-  const articleEntries: MetadataRoute.Sitemap = articleSlugs.map((slug) => ({
-    url: `${BASE_URL}/articles/${slug}`,
-    lastModified: new Date(),
+  const articleEntries: MetadataRoute.Sitemap = articles.map((article) => ({
+    url: `${BASE_URL}/articles/${article.slug}`,
+    lastModified: new Date(article.updatedAt),
     changeFrequency: "weekly",
     priority: 0.7,
   }));
@@ -32,19 +32,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
-  // イベント個別ページ（254件）
+  // イベント個別ページ
   const eventEntries: MetadataRoute.Sitemap = getAllEventIds().map((id) => ({
     url: `${BASE_URL}/events/${id}`,
-    lastModified: new Date(),
+    lastModified: new Date("2026-03-01"),
     changeFrequency: "weekly" as const,
     priority: 0.5,
   }));
 
-  // ショップ商品ページ（25商品）
+  // ショップ商品ページ
   const productEntries: MetadataRoute.Sitemap = getAllProductSlugs().map(
     (slug) => ({
       url: `${BASE_URL}/shop/${slug}`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-01"),
       changeFrequency: "monthly" as const,
       priority: 0.6,
     }),
@@ -54,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const coachEntries: MetadataRoute.Sitemap = getAllCoachSlugs().map(
     (slug) => ({
       url: `${BASE_URL}/coaching/${slug}`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-01"),
       changeFrequency: "weekly" as const,
       priority: 0.7,
     }),
@@ -63,31 +63,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     {
       url: BASE_URL,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-01"),
       changeFrequency: "daily",
       priority: 1,
     },
     {
       url: `${BASE_URL}/articles`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-01"),
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/rankings`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-01"),
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/events`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-01"),
       changeFrequency: "daily",
       priority: 0.8,
     },
     {
       url: `${BASE_URL}/pairs`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-01"),
       changeFrequency: "daily",
       priority: 0.7,
     },
@@ -96,27 +96,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...eventEntries,
     {
       url: `${BASE_URL}/coaching`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-01"),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     ...coachEntries,
     {
       url: `${BASE_URL}/shop`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-01"),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     ...productEntries,
     {
       url: `${BASE_URL}/terms`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-01"),
       changeFrequency: "monthly",
       priority: 0.3,
     },
     {
       url: `${BASE_URL}/privacy`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-01"),
       changeFrequency: "monthly",
       priority: 0.3,
     },

@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { EventJsonLd, BreadcrumbJsonLd } from "@/components/features/seo/json-ld";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import {
   getEventById,
   getAllEventIds,
@@ -78,128 +80,137 @@ export default async function EventDetailPage({ params }: Props) {
   }
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-12">
-      <div className="mb-2">
-        <Link
-          href="/events"
-          className="text-sm text-muted-foreground hover:underline"
-        >
-          イベント一覧に戻る
-        </Link>
-      </div>
-      <div className="mb-4 flex flex-wrap gap-2">
-        <Badge variant="outline">
-          {EVENT_CATEGORY_LABELS[event.category]}
-        </Badge>
-        {event.prefecture && (
-          <Badge variant="secondary">{event.prefecture}</Badge>
-        )}
-        {event.level !== "unknown" && (
-          <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${LEVEL_COLORS[event.level] ?? ""}`}>
-            {EVENT_LEVEL_LABELS[event.level]}
-          </span>
-        )}
-        {event.duprReflected === true && (
-          <span className="inline-flex items-center rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800">
-            DUPR反映
-          </span>
-        )}
-        {event.format.filter((f) => f !== "unknown").length > 0 && (
-          event.format
-            .filter((f) => f !== "unknown")
-            .map((f) => (
-              <Badge key={f} variant="secondary">
-                {EVENT_FORMAT_LABELS[f]}
-              </Badge>
-            ))
-        )}
-      </div>
-      <h1 className="mb-4 text-2xl font-bold sm:text-3xl">{event.title}</h1>
-      <Separator className="mb-8" />
-
-      <div className="grid gap-8 md:grid-cols-3">
-        <div className="space-y-6 md:col-span-2">
-          <p className="whitespace-pre-wrap text-muted-foreground">
-            {event.description}
-          </p>
+    <>
+      <EventJsonLd event={event} />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "ホーム", url: "https://pikura.app" },
+          { name: "イベント", url: "https://pikura.app/events" },
+          { name: event.title, url: `https://pikura.app/events/${id}` },
+        ]}
+      />
+      <div className="container mx-auto max-w-3xl px-4 py-12">
+        <Breadcrumb
+          items={[
+            { label: "ホーム", href: "/" },
+            { label: "イベント", href: "/events" },
+            { label: event.title },
+          ]}
+        />
+        <div className="mb-4 flex flex-wrap gap-2">
+          <Badge variant="outline">
+            {EVENT_CATEGORY_LABELS[event.category]}
+          </Badge>
+          {event.prefecture && (
+            <Badge variant="secondary">{event.prefecture}</Badge>
+          )}
+          {event.level !== "unknown" && (
+            <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${LEVEL_COLORS[event.level] ?? ""}`}>
+              {EVENT_LEVEL_LABELS[event.level]}
+            </span>
+          )}
+          {event.duprReflected === true && (
+            <span className="inline-flex items-center rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800">
+              DUPR反映
+            </span>
+          )}
+          {event.format.filter((f) => f !== "unknown").length > 0 && (
+            event.format
+              .filter((f) => f !== "unknown")
+              .map((f) => (
+                <Badge key={f} variant="secondary">
+                  {EVENT_FORMAT_LABELS[f]}
+                </Badge>
+              ))
+          )}
         </div>
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">イベント情報</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm">
-              <div>
-                <p className="text-muted-foreground">日時</p>
-                <p>{formatDate(event.eventDate)}</p>
-                {event.eventEndDate && event.eventEndDate !== event.eventDate && (
-                  <p className="text-xs text-muted-foreground">
-                    〜 {formatDate(event.eventEndDate)}
-                  </p>
+        <h1 className="mb-4 text-2xl font-bold sm:text-3xl">{event.title}</h1>
+        <Separator className="mb-8" />
+
+        <div className="grid gap-8 md:grid-cols-3">
+          <div className="space-y-6 md:col-span-2">
+            <p className="whitespace-pre-wrap text-muted-foreground">
+              {event.description}
+            </p>
+          </div>
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">イベント情報</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm">
+                <div>
+                  <p className="text-muted-foreground">日時</p>
+                  <p>{formatDate(event.eventDate)}</p>
+                  {event.eventEndDate && event.eventEndDate !== event.eventDate && (
+                    <p className="text-xs text-muted-foreground">
+                      〜 {formatDate(event.eventEndDate)}
+                    </p>
+                  )}
+                </div>
+                {event.location && (
+                  <div>
+                    <p className="text-muted-foreground">場所</p>
+                    <p>{event.location}</p>
+                  </div>
                 )}
-              </div>
-              {event.location && (
                 <div>
-                  <p className="text-muted-foreground">場所</p>
-                  <p>{event.location}</p>
+                  <p className="text-muted-foreground">カテゴリ</p>
+                  <p>{EVENT_CATEGORY_LABELS[event.category]}</p>
                 </div>
-              )}
-              <div>
-                <p className="text-muted-foreground">カテゴリ</p>
-                <p>{EVENT_CATEGORY_LABELS[event.category]}</p>
-              </div>
-              {event.entryFee && (
+                {event.entryFee && (
+                  <div>
+                    <p className="text-muted-foreground">参加費</p>
+                    <p>{event.entryFee}</p>
+                  </div>
+                )}
+                {event.registrationStatus !== "unknown" && (
+                  <div>
+                    <p className="text-muted-foreground">募集状況</p>
+                    <p className={event.registrationStatus === "open" ? "font-medium text-green-600" : "text-gray-500"}>
+                      {REGISTRATION_STATUS_LABELS[event.registrationStatus]}
+                    </p>
+                  </div>
+                )}
+                {event.maxParticipants !== null && (
+                  <div>
+                    <p className="text-muted-foreground">定員</p>
+                    <p>
+                      {event.currentParticipants !== null
+                        ? `${event.currentParticipants} / ${event.maxParticipants}名`
+                        : `${event.maxParticipants}名`}
+                    </p>
+                  </div>
+                )}
                 <div>
-                  <p className="text-muted-foreground">参加費</p>
-                  <p>{event.entryFee}</p>
+                  <p className="text-muted-foreground">情報元</p>
+                  <p>{EVENT_SOURCE_LABELS[event.source]}</p>
                 </div>
-              )}
-              {event.registrationStatus !== "unknown" && (
-                <div>
-                  <p className="text-muted-foreground">募集状況</p>
-                  <p className={event.registrationStatus === "open" ? "font-medium text-green-600" : "text-gray-500"}>
-                    {REGISTRATION_STATUS_LABELS[event.registrationStatus]}
-                  </p>
-                </div>
-              )}
-              {event.maxParticipants !== null && (
-                <div>
-                  <p className="text-muted-foreground">定員</p>
-                  <p>
-                    {event.currentParticipants !== null
-                      ? `${event.currentParticipants} / ${event.maxParticipants}名`
-                      : `${event.maxParticipants}名`}
-                  </p>
-                </div>
-              )}
-              <div>
-                <p className="text-muted-foreground">情報元</p>
-                <p>{EVENT_SOURCE_LABELS[event.source]}</p>
-              </div>
-              {event.registrationUrl && (
-                <Button asChild className="mt-4 w-full">
+                {event.registrationUrl && (
+                  <Button asChild className="mt-4 w-full">
+                    <a
+                      href={event.registrationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      申し込む
+                    </a>
+                  </Button>
+                )}
+                <Button asChild variant={event.registrationUrl ? "outline" : "default"} className="mt-2 w-full">
                   <a
-                    href={event.registrationUrl}
+                    href={event.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    申し込む
+                    {SOURCE_CTA_LABELS[event.source] ?? "詳細を見る"}
                   </a>
                 </Button>
-              )}
-              <Button asChild variant={event.registrationUrl ? "outline" : "default"} className="mt-2 w-full">
-                <a
-                  href={event.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {SOURCE_CTA_LABELS[event.source] ?? "詳細を見る"}
-                </a>
-              </Button>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

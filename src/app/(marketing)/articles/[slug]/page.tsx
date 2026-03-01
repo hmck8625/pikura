@@ -5,10 +5,12 @@ import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/features/seo/json-ld";
+import { ArticleJsonLd, BreadcrumbJsonLd, FAQPageJsonLd } from "@/components/features/seo/json-ld";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { ProductList } from "@/components/features/articles/product-card";
 import { getArticleBySlug, getAllArticleSlugs, getRelatedArticles } from "@/lib/microcms/queries";
 import { getProductsForArticle, getProductSectionTitle } from "@/lib/affiliate/products";
+import { extractFAQFromHTML } from "@/lib/utils/faq-parser";
 import type { Article } from "@/types";
 
 export const revalidate = 3600;
@@ -104,8 +106,8 @@ function restoreArticleImages(html: string, slug: string): string {
 
 export async function generateStaticParams() {
   try {
-    const slugs = await getAllArticleSlugs();
-    return slugs.map((slug) => ({ slug }));
+    const articles = await getAllArticleSlugs();
+    return articles.map((a) => ({ slug: a.slug }));
   } catch {
     return Object.keys(fallbackArticles).map((slug) => ({ slug }));
   }
@@ -157,10 +159,11 @@ export default async function ArticleDetailPage({ params }: Props) {
   const products = getProductsForArticle(article.slug);
   const productTitle = getProductSectionTitle(article.slug);
   const thumbnailUrl = article.thumbnail?.url ?? `/images/articles/${article.slug}.png`;
+  const faqItems = extractFAQFromHTML(article.content);
 
   let relatedArticles: Article[] = [];
   try {
-    relatedArticles = await getRelatedArticles(article.slug, article.category, 4);
+    relatedArticles = await getRelatedArticles(article.slug, article.category, 6);
   } catch {
     // microCMS取得失敗時は空配列のまま
   }
@@ -182,7 +185,15 @@ export default async function ArticleDetailPage({ params }: Props) {
         { name: article.title, url: `https://pikura.app/articles/${article.slug}` },
       ]}
     />
+    {faqItems && faqItems.length >= 2 && <FAQPageJsonLd items={faqItems} />}
     <article className="container mx-auto max-w-3xl px-4 py-12">
+      <Breadcrumb
+        items={[
+          { label: "ホーム", href: "/" },
+          { label: "記事一覧", href: "/articles" },
+          { label: article.title },
+        ]}
+      />
       <div className="relative mb-8 aspect-video overflow-hidden rounded-lg">
         <Image
           src={thumbnailUrl}
@@ -224,7 +235,7 @@ export default async function ArticleDetailPage({ params }: Props) {
       {relatedArticles.length > 0 && (
         <div className="mt-8">
           <h2 className="mb-4 text-xl font-bold">関連記事</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {relatedArticles.map((related) => (
               <Link
                 key={related.slug}

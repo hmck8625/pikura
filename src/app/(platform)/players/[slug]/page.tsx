@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { PlayerShareButtons } from "@/components/features/ranking/player-share-buttons";
 import { PlayerJsonLd, BreadcrumbJsonLd } from "@/components/features/seo/json-ld";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { getPlayerBySlug, getAllPlayerSlugs } from "@/lib/ranking/data";
 import { CATEGORY_LABELS, AGE_GROUP_LABELS } from "@/lib/ranking/types";
 
@@ -72,14 +73,13 @@ export default async function PlayerPage({ params }: Props) {
         ]}
       />
       <div className="container mx-auto px-4 py-12">
-        <div className="mb-6">
-          <Link
-            href="/rankings"
-            className="text-sm text-muted-foreground hover:text-primary"
-          >
-            ← ランキング一覧に戻る
-          </Link>
-        </div>
+        <Breadcrumb
+          items={[
+            { label: "ホーム", href: "/" },
+            { label: "ランキング", href: "/rankings" },
+            { label: player.name },
+          ]}
+        />
 
         <div className="grid gap-8 md:grid-cols-3">
           {/* プロフィールカード */}
